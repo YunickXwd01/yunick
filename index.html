@@ -1,1144 +1,1033 @@
-<!DOCTYPE html>
-<html lang="en" class="scroll-smooth">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Yunick Thami — Python Automation & XWD Apps</title>
-
-    <!-- Tailwind CSS -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-        tailwind.config = {
-            darkMode: 'class',
-            theme: {
-                extend: {
-                    colors: {
-                        ink: '#0b0b0f',
-                        paper: '#f6f4ef',
-                        cream: '#faf8f4',
-                        clay: '#e8e2d8',
-                        rust: '#c2410c',
-                        moss: '#4d7c0f',
-                        slateink: '#1c1917',
-                        sky: '#0284c7',
-                    },
-                    fontFamily: {
-                        display: ['"Fraunces"', 'Georgia', 'serif'],
-                        body: ['"Inter"', 'system-ui', 'sans-serif'],
-                        mono: ['"JetBrains Mono"', 'monospace'],
+```html
+<!DOCTYPE html>  
+<html lang="en" class="scroll-smooth dark">  
+<head>  
+    <meta charset="UTF-8">  
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+    <title>Yunick Thami — Python Automation & XWD Ecosystem</title>  
+  
+    <!-- Tailwind CSS -->  
+    <script src="https://cdn.tailwindcss.com"></script>  
+    <script>  
+        tailwind.config = {  
+            darkMode: 'class',  
+            theme: {  
+                extend: {  
+                    colors: {  
+                        brand: {  
+                            50: '#f0f7ff',  
+                            100: '#e0effe',  
+                            400: '#38bdf8',
+                            500: '#0284c7',  
+                            600: '#0369a1',  
+                            900: '#0c4a6e',  
+                        },  
+                        accent: {  
+                            50: '#ea580c',  
+                            600: '#c2410c',  
+                        },
+                        darkbg: '#090d16',
+                        darkcard: '#111827',
+                    },  
+                    fontFamily: {  
+                        sans: ['"Inter"', 'system-ui', 'sans-serif'],  
+                        mono: ['"JetBrains Mono"', 'monospace'],  
                     },
                     animation: {
-                        'float-soft': 'floatSoft 7s ease-in-out infinite',
-                        'drift': 'drift 12s ease-in-out infinite',
-                        'underline-grow': 'underlineGrow 0.4s ease forwards',
-                    }
-                }
-            }
-        }
-    </script>
-
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,700;0,9..144,900;1,9..144,400&family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-
-    <style>
-        * { -webkit-tap-highlight-color: transparent; }
-
-        html { scroll-behavior: smooth; }
-
-        body {
-            background-color: #faf8f4;
-            color: #1c1917;
-            font-family: 'Inter', system-ui, sans-serif;
+                        'pulse-slow': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                        'float': 'float 6s ease-in-out infinite',
+                        'glow': 'glow 2s ease-in-out infinite alternate',
+                    },
+                    keyframes: {
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0px)' },
+                            '50%': { transform: 'translateY(-10px)' },
+                        },
+                        glow: {
+                            '0%': { filter: 'drop-shadow(0 0 5px rgba(2, 132, 199, 0.4))' },
+                            '100%': { filter: 'drop-shadow(0 0 20px rgba(2, 132, 199, 0.8))' }
+                        }
+                    } 
+                }  
+            }  
+        }  
+    </script>  
+  
+    <link rel="preconnect" href="https://fonts.googleapis.com">  
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>  
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">  
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">  
+  
+    <style>  
+        * { -webkit-tap-highlight-color: transparent; }  
+        html { scroll-behavior: smooth; }  
+        
+        body {  
+            background-color: #090d16;  
+            color: #f1f5f9;  
+            font-family: 'Inter', system-ui, sans-serif;  
             overflow-x: hidden;
-            background-image:
-                radial-gradient(circle at 20% 10%, rgba(194, 65, 12, 0.04) 0%, transparent 40%),
-                radial-gradient(circle at 90% 80%, rgba(2, 132, 199, 0.04) 0%, transparent 40%);
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }  
+
+        html:not(.dark) body {
+            background-color: #f8fafc;
+            color: #0f172a;
         }
 
-        /* Paper grain texture for warmth */
-        body::before {
-            content: "";
-            position: fixed;
+        /* Glass effect cards with mouse spotlight */  
+        .glass-card {  
+            position: relative;
+            background: rgba(17, 24, 39, 0.7);  
+            backdrop-filter: blur(16px);  
+            border: 1px solid rgba(255, 255, 255, 0.08);  
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);  
+            overflow: hidden;
+        }  
+        
+        html:not(.dark) .glass-card {
+            background: rgba(255, 255, 255, 0.85);
+            border: 1px solid #e2e8f0;
+        }
+
+        .glass-card::before {
+            content: '';
+            position: absolute;
             inset: 0;
+            background: radial-gradient(800px circle at var(--mouse-x, 50%) var(--mouse-y, 50%), rgba(2, 132, 199, 0.12), transparent 40%);
+            opacity: 0;
+            transition: opacity 0.5s ease;
             pointer-events: none;
             z-index: 1;
-            opacity: 0.35;
-            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.4'/%3E%3C/svg%3E");
-            mix-blend-mode: multiply;
         }
 
-        .font-display { font-family: 'Fraunces', Georgia, serif; }
-        .font-mono { font-family: 'JetBrains Mono', monospace; }
-
-        /* Warm card — handmade feel */
-        .card-warm {
-            background: #ffffff;
-            border: 1.5px solid #e8e2d8;
-            border-radius: 20px;
-            transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
-            position: relative;
-            overflow: hidden;
+        .glass-card:hover::before {
+            opacity: 1;
         }
-        .card-warm::after {
-            content: "";
+
+        .glass-card:hover {  
+            border-color: rgba(2, 132, 199, 0.4);  
+            transform: translateY(-3px);  
+            box-shadow: 0 16px 32px -10px rgba(0, 0, 0, 0.5);  
+        }  
+
+        html:not(.dark) .glass-card:hover {
+            box-shadow: 0 16px 32px -10px rgba(15, 23, 42, 0.08);
+            border-color: #cbd5e1;
+        }
+  
+        .terminal-window {  
+            background: #0d1117;  
+            border: 1px solid #21262d;  
+            border-radius: 16px;  
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.6);  
+        }  
+
+        .marquee-track {  
+            display: flex;  
+            gap: 2.5rem;  
+            animation: scroll 30s linear infinite;  
+        }  
+
+        .marquee-track:hover {
+            animation-play-state: paused;
+        }
+
+        @keyframes scroll {  
+            from { transform: translateX(0); }  
+            to { transform: translateX(-50%); }  
+        }  
+  
+        /* Fade in on scroll */  
+        .reveal {  
+            opacity: 0;  
+            transform: translateY(20px);  
+            transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1), transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);  
+        }  
+        .reveal.visible {  
+            opacity: 1;  
+            transform: translateY(0);  
+        }
+
+        /* Syntax Highlight Styles */
+        .code-kw { color: #f472b6; font-weight: 600; }
+        .code-fn { color: #38bdf8; }
+        .code-str { color: #4ade80; }
+        .code-cm { color: #64748b; font-style: italic; }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #090d16;
+        }
+        html:not(.dark) ::-webkit-scrollbar-track {
+            background: #f1f5f9;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #1e293b;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #0284c7;
+        }
+
+        /* Matrix Canvas Overlay */
+        #matrixCanvas {
             position: absolute;
             inset: 0;
-            border-radius: 20px;
-            box-shadow: 0 1px 0 rgba(255,255,255,0.8) inset;
             pointer-events: none;
-        }
-        .card-warm:hover {
-            transform: translateY(-3px);
-            border-color: #1c1917;
-            box-shadow: 6px 6px 0 #1c1917;
-        }
-
-        /* Notebook-style card */
-        .card-notebook {
-            background: #fffdf7;
-            border: 1.5px solid #1c1917;
-            border-radius: 12px;
-            box-shadow: 5px 5px 0 #1c1917;
-            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-        }
-        .card-notebook:hover {
-            transform: translate(-2px, -2px);
-            box-shadow: 8px 8px 0 #1c1917;
-        }
-
-        /* Speech-bubble app cards */
-        .app-sms {
-            background: linear-gradient(150deg, #f0f9ff 0%, #e0f2fe 100%);
-            border: 1.5px solid #1c1917;
-            border-radius: 24px;
-            box-shadow: 6px 6px 0 #1c1917;
-            position: relative;
-            transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
-        }
-        .app-sms:hover { transform: translate(-3px, -3px); box-shadow: 10px 10px 0 #1c1917; }
-
-        .app-xwd {
-            background: linear-gradient(150deg, #faf5ff 0%, #f3e8ff 100%);
-            border: 1.5px solid #1c1917;
-            border-radius: 24px;
-            box-shadow: 6px 6px 0 #1c1917;
-            position: relative;
-            transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
-        }
-        .app-xwd:hover { transform: translate(-3px, -3px); box-shadow: 10px 10px 0 #1c1917; }
-
-        /* Hand-drawn style badge */
-        .stamp {
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            padding: 4px 12px;
-            background: #1c1917;
-            color: #faf8f4;
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 11px;
-            font-weight: 600;
-            letter-spacing: 0.5px;
-            text-transform: uppercase;
-            border-radius: 100px;
-            transform: rotate(-1.5deg);
-        }
-
-        .stamp-rust { background: #c2410c; }
-        .stamp-sky { background: #0284c7; }
-        .stamp-moss { background: #4d7c0f; }
-        .stamp-purple { background: #7c3aed; }
-
-        /* Underline highlight */
-        .highlight {
-            background: linear-gradient(180deg, transparent 60%, #fde68a 60%);
-            padding: 0 4px;
-        }
-        .highlight-sky {
-            background: linear-gradient(180deg, transparent 60%, #bae6fd 60%);
-            padding: 0 4px;
-        }
-        .highlight-purple {
-            background: linear-gradient(180deg, transparent 60%, #e9d5ff 60%);
-            padding: 0 4px;
-        }
-
-        /* Tag chips */
-        .chip {
-            display: inline-flex;
-            align-items: center;
-            gap: 5px;
-            padding: 4px 10px;
-            border-radius: 100px;
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 10.5px;
-            font-weight: 500;
-            border: 1px solid #e8e2d8;
-            background: #fff;
-            color: #57534e;
-            transition: all 0.2s ease;
-        }
-        .chip:hover { border-color: #1c1917; color: #1c1917; }
-
-        /* Buttons */
-        .btn-ink {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            padding: 12px 22px;
-            background: #1c1917;
-            color: #faf8f4;
-            font-weight: 600;
-            font-size: 13.5px;
-            border-radius: 100px;
-            border: 1.5px solid #1c1917;
-            transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
-        }
-        .btn-ink:hover {
-            background: #faf8f4;
-            color: #1c1917;
-            transform: translateY(-2px);
-            box-shadow: 4px 4px 0 #1c1917;
-        }
-
-        .btn-outline {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            padding: 12px 22px;
-            background: transparent;
-            color: #1c1917;
-            font-weight: 600;
-            font-size: 13.5px;
-            border-radius: 100px;
-            border: 1.5px solid #1c1917;
-            transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
-        }
-        .btn-outline:hover {
-            background: #1c1917;
-            color: #faf8f4;
-            transform: translateY(-2px);
-        }
-
-        /* Section labels with hand-drawn feel */
-        .section-label {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 11px;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            color: #57534e;
-        }
-        .section-label::before {
-            content: "";
-            width: 24px;
-            height: 1.5px;
-            background: #1c1917;
-        }
-
-        /* Dotted paper divider */
-        .divider-dots {
-            height: 1px;
-            background-image: linear-gradient(90deg, #d6d3d1 50%, transparent 50%);
-            background-size: 12px 1px;
-        }
-
-        /* Telegram button */
-        .tg-pill {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            padding: 12px 20px;
-            border-radius: 100px;
-            font-weight: 600;
-            font-size: 13px;
-            border: 1.5px solid #1c1917;
-            transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
-        }
-        .tg-sky { background: #0284c7; color: #fff; }
-        .tg-sky:hover { background: #0369a1; transform: translateY(-2px); box-shadow: 4px 4px 0 #1c1917; }
-        .tg-purple { background: #7c3aed; color: #fff; }
-        .tg-purple:hover { background: #6d28d9; transform: translateY(-2px); box-shadow: 4px 4px 0 #1c1917; }
-        .tg-ink { background: #1c1917; color: #faf8f4; }
-        .tg-ink:hover { background: #000; transform: translateY(-2px); box-shadow: 4px 4px 0 #c2410c; }
-
-        /* Code block — warm paper style */
-        .code-warm {
-            background: #1c1917;
-            color: #e7e5e4;
-            border-radius: 12px;
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 11.5px;
-            padding: 14px 16px;
-            line-height: 1.7;
-            border: 1.5px solid #1c1917;
-        }
-        .code-warm .k { color: #fbbf24; }
-        .code-warm .s { color: #a3e635; }
-        .code-warm .c { color: #78716c; font-style: italic; }
-        .code-warm .f { color: #38bdf8; }
-
-        /* Big decorative number */
-        .big-num {
-            font-family: 'Fraunces', serif;
-            font-weight: 900;
-            font-size: 60px;
-            line-height: 1;
-            color: #1c1917;
-            letter-spacing: -3px;
-        }
-
-        /* Animations */
-        @keyframes floatSoft {
-            0%, 100% { transform: translateY(0) rotate(-1deg); }
-            50% { transform: translateY(-8px) rotate(1deg); }
-        }
-        .float-soft { animation: floatSoft 7s ease-in-out infinite; }
-
-        @keyframes drift {
-            0%, 100% { transform: translate(0, 0) rotate(0deg); }
-            50% { transform: translate(6px, -10px) rotate(2deg); }
-        }
-        .drift { animation: drift 12s ease-in-out infinite; }
-
-        /* Marquee */
-        .marquee {
-            display: flex;
-            overflow: hidden;
-            user-select: none;
-            gap: 12px;
-            mask-image: linear-gradient(90deg, transparent, #000 10%, #000 90%, transparent);
-        }
-        .marquee-track {
-            flex-shrink: 0;
-            display: flex;
-            gap: 12px;
-            animation: scroll 40s linear infinite;
-        }
-        @keyframes scroll {
-            from { transform: translateX(0); }
-            to { transform: translateX(-100%); }
-        }
-
-        /* Terminal */
-        .terminal-box {
-            background: #1c1917;
-            border-radius: 16px;
-            border: 1.5px solid #1c1917;
-            box-shadow: 6px 6px 0 #c2410c;
-            overflow: hidden;
-        }
-        .terminal-body {
-            background: #0b0b0f;
-            color: #e7e5e4;
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 12.5px;
-            line-height: 1.7;
-        }
-
-        /* Scrollbar */
-        ::-webkit-scrollbar { width: 10px; }
-        ::-webkit-scrollbar-track { background: #f6f4ef; }
-        ::-webkit-scrollbar-thumb { background: #d6d3d1; border-radius: 5px; border: 2px solid #f6f4ef; }
-        ::-webkit-scrollbar-thumb:hover { background: #1c1917; }
-
-        /* Fade in on scroll */
-        .reveal {
             opacity: 0;
-            transform: translateY(20px);
-            transition: opacity 0.7s ease, transform 0.7s ease;
+            transition: opacity 0.5s ease;
+            z-index: 0;
         }
-        .reveal.visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
+    </style>  
+</head>  
+<body class="min-h-screen antialiased selection:bg-brand-500 selection:text-white">  
 
-        /* Doodle underline SVG effect */
-        .doodle-underline {
-            position: relative;
-            display: inline-block;
-        }
-        .doodle-underline::after {
-            content: "";
-            position: absolute;
-            left: 0;
-            right: 0;
-            bottom: -4px;
-            height: 6px;
-            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 6' preserveAspectRatio='none'%3E%3Cpath d='M0,3 Q25,0 50,3 T100,3' stroke='%23c2410c' stroke-width='1.5' fill='none'/%3E%3C/svg%3E");
-            background-size: 100% 100%;
-        }
+    <!-- Reading Progress Bar -->
+    <div id="progressBar" class="fixed top-0 left-0 h-1 bg-gradient-to-r from-sky-400 via-brand-500 to-indigo-500 z-50 transition-all duration-150 w-0"></div>
 
-        @media (max-width: 640px) {
-            .big-num { font-size: 42px; }
-            .card-notebook { box-shadow: 4px 4px 0 #1c1917; }
-            .app-sms, .app-xwd { box-shadow: 4px 4px 0 #1c1917; }
-        }
-    </style>
-</head>
-<body class="relative min-h-screen antialiased">
+    <!-- Interactive Particle Background Canvas -->  
+    <canvas id="bgCanvas" class="fixed inset-0 pointer-events-none z-0 opacity-40"></canvas>
 
-    <!-- ================= NAVIGATION ================= -->
-    <header class="sticky top-0 z-50 backdrop-blur-md bg-[#faf8f4]/85 border-b border-[#e8e2d8]">
-        <div class="max-w-6xl mx-auto px-5 sm:px-8 py-4 flex items-center justify-between">
-            <a href="#" class="flex items-center gap-3 group">
-                <div class="w-10 h-10 rounded-xl bg-[#1c1917] flex items-center justify-center font-display font-black text-[#faf8f4] text-lg shadow-[3px_3px_0_#c2410c] group-hover:shadow-[3px_3px_0_#0284c7] transition-all">
-                    Y
-                </div>
-                <div class="leading-tight">
-                    <span class="font-display font-bold text-[17px] text-[#1c1917] block tracking-tight">Yunick Thami</span>
-                    <span class="font-mono text-[10.5px] text-[#57534e] tracking-wide">PYTHON · AUTOMATION · XWD</span>
-                </div>
-            </a>
+    <!-- Toast Notification Container -->
+    <div id="toast" class="fixed bottom-6 right-6 z-50 transform translate-y-20 opacity-0 transition-all duration-300 pointer-events-none flex items-center gap-3 px-4 py-3 rounded-xl bg-slate-900 border border-slate-700 text-white shadow-2xl text-xs font-mono">
+        <i class="fas fa-check-circle text-emerald-400 text-base"></i>
+        <span id="toastMsg">Notification message</span>
+    </div>
 
-            <nav class="hidden lg:flex items-center gap-8 text-[13px] font-semibold text-[#44403c]">
-                <a href="#work" class="hover:text-[#c2410c] transition-colors">XWD Apps</a>
-                <a href="#python" class="hover:text-[#c2410c] transition-colors">Python Tools</a>
-                <a href="#channels" class="hover:text-[#c2410c] transition-colors">Channels</a>
-                <a href="#services" class="hover:text-[#c2410c] transition-colors">Services</a>
-                <a href="#terminal" class="hover:text-[#c2410c] transition-colors">Terminal</a>
-            </nav>
+    <!-- ================= NAVIGATION ================= -->  
+    <header class="sticky top-0 z-40 backdrop-blur-md bg-slate-950/80 dark:bg-slate-950/80 border-b border-slate-800/80 transition-colors duration-300">  
+        <div class="max-w-6xl mx-auto px-6 py-3.5 flex items-center justify-between">  
+            <a href="#" class="flex items-center gap-3 group">  
+                <div class="w-9 h-9 rounded-xl bg-gradient-to-tr from-brand-600 to-sky-400 flex items-center justify-center font-mono font-bold text-white text-base shadow-lg shadow-sky-500/20 group-hover:scale-105 transition-transform">  
+                    Y  
+                </div>  
+                <div class="leading-tight">  
+                    <span class="font-bold text-[15px] dark:text-white text-slate-900 block tracking-tight">Yunick Thami</span>  
+                    <span class="font-mono text-[11px] text-sky-400 dark:text-sky-400">Python Systems & Automation</span>  
+                </div>  
+            </a>  
+  
+            <nav class="hidden md:flex items-center gap-7 text-[13px] font-semibold dark:text-slate-300 text-slate-600">  
+                <a href="#work" class="hover:text-brand-400 transition-colors">Platforms</a>  
+                <a href="#python" class="hover:text-brand-400 transition-colors">Python Projects</a>  
+                <a href="#services" class="hover:text-brand-400 transition-colors">Capabilities</a>  
+                <a href="#terminal" class="hover:text-brand-400 transition-colors">Dev Shell</a>  
+            </nav>  
+  
+            <div class="flex items-center gap-3">  
+                <!-- Theme Toggle Button -->
+                <button id="themeToggle" title="Toggle Light/Dark Theme" class="w-9 h-9 rounded-lg border border-slate-700 dark:border-slate-800 flex items-center justify-center text-slate-300 hover:border-sky-400 hover:text-sky-400 transition-all bg-slate-900/50">
+                    <i class="fas fa-moon dark:hidden text-amber-400"></i>
+                    <i class="fas fa-sun hidden dark:block text-amber-400"></i>
+                </button>
 
-            <div class="flex items-center gap-2">
-                <a href="https://github.com/YunickXwd01" target="_blank" class="w-10 h-10 rounded-full border-1.5 border-[#1c1917] flex items-center justify-center text-[#1c1917] hover:bg-[#1c1917] hover:text-[#faf8f4] transition-all" title="GitHub">
-                    <i class="fab fa-github"></i>
-                </a>
-                <a href="https://t.me/YunickXwd" target="_blank" class="hidden sm:inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-[#1c1917] text-[#faf8f4] text-[13px] font-semibold hover:bg-[#c2410c] transition-all">
-                    <i class="fab fa-telegram-plane"></i> Say Hi
-                </a>
-            </div>
-        </div>
-    </header>
-
-    <main class="relative z-10 max-w-6xl mx-auto px-5 sm:px-8">
-
-        <!-- ================= HERO ================= -->
-        <section class="pt-14 sm:pt-20 pb-16">
-            <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 items-start">
-                <div class="lg:col-span-7">
-                    <div class="flex items-center gap-3 mb-6">
-                        <span class="stamp stamp-rust">
-                            <span class="w-1.5 h-1.5 rounded-full bg-[#faf8f4] animate-pulse"></span>
-                            Available for work
-                        </span>
-                        <span class="font-mono text-[11px] text-[#78716c]">Nepal → Worldwide</span>
-                    </div>
-
-                    <h1 class="font-display font-black text-[40px] sm:text-[58px] lg:text-[64px] leading-[0.98] tracking-tight text-[#1c1917]">
-                        I build Python<br>
-                        tools & <span class="italic text-[#c2410c]">automation</span><br>
-                        that just work.
-                    </h1>
-
-                    <p class="mt-7 text-[15.5px] sm:text-[16.5px] text-[#44403c] leading-relaxed max-w-xl">
-                        Hey — I'm <strong class="text-[#1c1917]">Yunick</strong>. I make web platforms, Python scripts, Telegram bots, and social-media automation. I'm the person behind <span class="highlight font-semibold">XWD SMS</span> and <span class="highlight-purple font-semibold">XWD APP</span> — two tools built to work together.
-                    </p>
-
-                    <div class="mt-8 flex flex-wrap gap-3">
-                        <a href="https://t.me/YunickXwd" target="_blank" class="btn-ink">
-                            <i class="fab fa-telegram-plane text-[15px]"></i> Message @YunickXwd
-                        </a>
-                        <a href="#python" class="btn-outline">
-                            <i class="fab fa-python text-[15px]"></i> See my tools
-                        </a>
-                    </div>
-
-                    <!-- Quick stats row -->
-                    <div class="mt-10 grid grid-cols-3 gap-4 max-w-md">
-                        <div>
-                            <div class="font-display font-black text-[32px] leading-none text-[#1c1917]">5+</div>
-                            <div class="font-mono text-[10.5px] text-[#78716c] mt-1 tracking-wide">OPEN REPOS</div>
-                        </div>
-                        <div class="border-l border-[#e8e2d8] pl-4">
-                            <div class="font-display font-black text-[32px] leading-none text-[#1c1917]">2</div>
-                            <div class="font-mono text-[10.5px] text-[#78716c] mt-1 tracking-wide">FLAGSHIP APPS</div>
-                        </div>
-                        <div class="border-l border-[#e8e2d8] pl-4">
-                            <div class="font-display font-black text-[32px] leading-none text-[#1c1917]">∞</div>
-                            <div class="font-mono text-[10.5px] text-[#78716c] mt-1 tracking-wide">CURIOSITY</div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Right side: a personal card -->
-                <div class="lg:col-span-5 lg:pt-4">
-                    <div class="card-notebook p-6 float-soft">
-                        <div class="flex items-center gap-2 mb-4">
-                            <div class="flex gap-1.5">
-                                <span class="w-2.5 h-2.5 rounded-full bg-[#c2410c]"></span>
-                                <span class="w-2.5 h-2.5 rounded-full bg-[#fbbf24]"></span>
-                                <span class="w-2.5 h-2.5 rounded-full bg-[#4d7c0f]"></span>
+                <a href="https://github.com/YunickXwd01" target="_blank" class="w-9 h-9 rounded-lg border border-slate-700 dark:border-slate-800 flex items-center justify-center text-slate-300 hover:border-sky-400 hover:text-sky-400 transition-all bg-slate-900/50">  
+                    <i class="fab fa-github"></i>  
+                </a>  
+                <a href="https://t.me/YunickXwd" target="_blank" class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-brand-500 hover:bg-brand-600 text-white text-[13px] font-semibold transition-all shadow-md shadow-brand-500/20 hover:shadow-brand-500/40">  
+                    <i class="fab fa-telegram-plane"></i> Let's Talk  
+                </a>  
+            </div>  
+        </div>  
+    </header>  
+  
+    <main class="relative z-10 max-w-6xl mx-auto px-6">  
+  
+        <!-- ================= HERO ================= -->  
+        <section class="pt-12 sm:pt-20 pb-16">  
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">  
+                <div class="lg:col-span-7">  
+                    <!-- Grounded status badge -->  
+                    <div class="inline-flex items-center gap-2.5 px-4 py-1.5 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 text-xs font-semibold mb-6 shadow-sm">  
+                        <span class="relative flex h-2.5 w-2.5">  
+                            <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>  
+                            <span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-500"></span>  
+                        </span>  
+                        Available for custom scripts & backend automation  
+                    </div>  
+  
+                    <h1 class="text-4xl sm:text-6xl font-extrabold tracking-tight dark:text-white text-slate-900 leading-[1.1]">  
+                        Engineered <span class="text-transparent bg-clip-text bg-gradient-to-r from-sky-400 via-brand-500 to-indigo-400 animate-glow">Python Scripts</span> & High-Throughput API Tools.  
+                    </h1>  
+  
+                    <p class="mt-6 text-base sm:text-lg dark:text-slate-400 text-slate-600 leading-relaxed max-w-xl">  
+                        I'm <strong class="dark:text-white text-slate-900">Yunick Thami</strong>. I build multi-threaded automation pipelines, Telegram bots, proxy rotators, and REST gateways — powers behind <span class="font-semibold text-sky-400">XWD SMS</span> & <span class="font-semibold text-purple-400">XWD APP</span>.  
+                    </p>  
+  
+                    <div class="mt-8 flex flex-wrap gap-3">  
+                        <a href="https://t.me/YunickXwd" target="_blank" class="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-brand-500 hover:bg-brand-600 text-white text-sm font-semibold transition-all shadow-lg shadow-brand-500/25">  
+                            <i class="fab fa-telegram-plane"></i> Discuss Project  
+                        </a>  
+                        <a href="#python" class="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-slate-900/80 hover:bg-slate-800 border border-slate-700 text-slate-200 text-sm font-semibold transition-all">  
+                            <i class="fas fa-code text-sky-400 text-xs"></i> View Python Projects  
+                        </a>  
+                    </div>  
+  
+                    <!-- Dynamic Metrics Counter Row -->  
+                    <div class="mt-12 grid grid-cols-3 gap-6 max-w-md border-t border-slate-800/80 pt-6">  
+                        <div>  
+                            <div class="text-2xl sm:text-3xl font-bold text-sky-400 font-mono flex items-center">
+                                <span class="counter" data-target="5">0</span>+
+                            </div>  
+                            <div class="text-xs dark:text-slate-400 text-slate-500 font-medium mt-0.5">Active Repos</div>  
+                        </div>  
+                        <div>  
+                            <div class="text-2xl sm:text-3xl font-bold text-purple-400 font-mono flex items-center">
+                                <span class="counter" data-target="99">0</span>.9%
+                            </div>  
+                            <div class="text-xs dark:text-slate-400 text-slate-500 font-medium mt-0.5">API Reliability</div>  
+                        </div>  
+                        <div>  
+                            <div class="text-2xl sm:text-3xl font-bold text-emerald-400 font-mono flex items-center">
+                                <span class="counter" data-target="24">0</span>/7
+                            </div>  
+                            <div class="text-xs dark:text-slate-400 text-slate-500 font-medium mt-0.5">Automated Uptime</div>  
+                        </div>  
+                    </div>  
+                </div>  
+  
+                <!-- Interactive JSON / Code Card -->  
+                <div class="lg:col-span-5">  
+                    <div class="glass-card rounded-2xl p-6 shadow-2xl border border-slate-800 animate-float">  
+                        <div class="flex items-center justify-between border-b border-slate-800 pb-4 mb-4">  
+                            <div class="flex items-center gap-2">
+                                <span class="w-3 h-3 rounded-full bg-rose-500"></span>
+                                <span class="w-3 h-3 rounded-full bg-amber-500"></span>
+                                <span class="w-3 h-3 rounded-full bg-emerald-500"></span>
                             </div>
-                            <span class="font-mono text-[10.5px] text-[#78716c] ml-auto">~/yunick/notes.md</span>
-                        </div>
-
-                        <div class="font-mono text-[12.5px] leading-relaxed text-[#1c1917] space-y-3">
-                            <p class="text-[#c2410c] font-semibold">// what I actually do</p>
-                            <p><span class="text-[#4d7c0f]">→</span> Build Python scripts that automate the boring stuff</p>
-                            <p><span class="text-[#4d7c0f]">→</span> Run virtual number & OTP gateways (XWD SMS)</p>
-                            <p><span class="text-[#4d7c0f]">→</span> Automate FB account creation (XWD APP)</p>
-                            <p><span class="text-[#4d7c0f]">→</span> Ship Telegram bots people actually use</p>
-                            <p class="text-[#78716c] italic pt-2">// currently: building, breaking, fixing, repeat.</p>
-                        </div>
-
-                        <div class="divider-dots my-5"></div>
-
-                        <div class="flex items-center justify-between">
-                            <div class="flex -space-x-2">
-                                <span class="w-8 h-8 rounded-full bg-[#0284c7] border-2 border-white flex items-center justify-center text-white text-[10px] font-bold">X</span>
-                                <span class="w-8 h-8 rounded-full bg-[#7c3aed] border-2 border-white flex items-center justify-center text-white text-[10px] font-bold">A</span>
-                                <span class="w-8 h-8 rounded-full bg-[#c2410c] border-2 border-white flex items-center justify-center text-white text-[10px] font-bold">Py</span>
+                            <span class="font-mono text-xs font-semibold text-slate-400">developer_profile.py</span>  
+                            <span class="text-xs font-mono text-emerald-400 flex items-center gap-1">
+                                <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span> ONLINE
+                            </span>  
+                        </div>  
+  
+                        <div class="font-mono text-xs space-y-3 leading-relaxed">  
+                            <div>  
+                                <span class="code-kw">class</span> <span class="code-fn">Developer</span>:  
+                                <p class="pl-4 text-slate-300"><span class="code-kw">name</span> = <span class="code-str">"Yunick Thami"</span></p>  
+                                <p class="pl-4 text-slate-300"><span class="code-kw">handle</span> = <span class="code-str">"@YunickXwd"</span></p>  
+                                <p class="pl-4 text-slate-300"><span class="code-kw">stack</span> = [<span class="code-str">"Python 3.11"</span>, <span class="code-str">"FastAPI"</span>, <span class="code-str">"Pyrogram"</span>, <span class="code-str">"Asyncio"</span>]</p>  
+                            </div>  
+                            <div class="pt-2 border-t border-slate-800/80">  
+                                <span class="code-cm"># Core Specialization</span>  
+                                <p class="text-sky-300 font-medium">Async Web Scraping, Proxy Switchers, SMS Gateway Integration & Telethon Bots</p>  
+                            </div>  
+                            <div class="pt-2 flex items-center justify-between text-[11px] text-slate-400 font-mono">
+                                <span>threads: <strong class="text-emerald-400">Multi-threaded</strong></span>
+                                <span>proxies: <strong class="text-sky-400">Dynamic Rotation</strong></span>
                             </div>
-                            <span class="font-mono text-[10.5px] text-[#78716c]">building since 2020</span>
+                        </div>  
+                    </div>  
+                </div>  
+            </div>  
+        </section>  
+  
+        <!-- ================= MARQUEE ================= -->  
+        <section class="py-6 border-y border-slate-800/80 -mx-6 px-6 overflow-hidden bg-slate-950/40">  
+            <div class="flex overflow-hidden">  
+                <div class="marquee-track font-mono text-xs font-semibold text-slate-400 uppercase tracking-wider whitespace-nowrap">  
+                    <span class="flex items-center gap-2"><i class="fab fa-python text-amber-400"></i> Python Scrapers</span>  
+                    <span class="text-brand-500">/</span>  
+                    <span class="flex items-center gap-2"><i class="fas fa-sim-card text-sky-400"></i> XWD Virtual SMS Gateway</span>  
+                    <span class="text-brand-500">/</span>  
+                    <span class="flex items-center gap-2"><i class="fas fa-sync text-emerald-400"></i> Automated Session Management</span>  
+                    <span class="text-brand-500">/</span>  
+                    <span class="flex items-center gap-2"><i class="fab fa-telegram text-indigo-400"></i> Telegram Userbots</span>  
+                    <span class="text-brand-500">/</span>  
+                    <span class="flex items-center gap-2"><i class="fas fa-code text-rose-400"></i> REST API Integrations</span>  
+                    <span class="text-brand-500">/</span>  
+                    <span class="flex items-center gap-2"><i class="fab fa-python text-amber-400"></i> Python Scrapers</span>  
+                    <span class="text-brand-500">/</span>  
+                    <span class="flex items-center gap-2"><i class="fas fa-sim-card text-sky-400"></i> XWD Virtual SMS Gateway</span>  
+                    <span class="text-brand-500">/</span>  
+                    <span class="flex items-center gap-2"><i class="fas fa-sync text-emerald-400"></i> Automated Session Management</span>  
+                    <span class="text-brand-500">/</span>  
+                    <span class="flex items-center gap-2"><i class="fab fa-telegram text-indigo-400"></i> Telegram Userbots</span>  
+                </div>  
+            </div>  
+        </section>  
+  
+        <!-- ================= FLAGSHIP APPS ================= -->  
+        <section id="work" class="py-20 reveal">  
+            <div class="max-w-2xl mb-12">  
+                <span class="font-mono text-xs font-bold text-brand-400 uppercase tracking-widest">Flagship Ecosystem</span>  
+                <h2 class="text-3xl sm:text-4xl font-extrabold dark:text-white text-slate-900 mt-2">  
+                    Built for seamless account & verification workflows.  
+                </h2>  
+                <p class="dark:text-slate-400 text-slate-600 mt-3 text-base">  
+                    XWD SMS handles virtual phone verification, while XWD APP leverages those endpoints to streamline account creation pipelines.  
+                </p>  
+            </div>  
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">  
+                <!-- XWD SMS Card -->  
+                <div class="glass-card rounded-2xl p-8 flex flex-col justify-between group">  
+                    <div>  
+                        <div class="flex items-center justify-between mb-6">  
+                            <div class="w-12 h-12 rounded-2xl bg-sky-500/20 text-sky-400 border border-sky-500/30 flex items-center justify-center text-xl shadow-inner group-hover:scale-110 transition-transform">  
+                                <i class="fas fa-sim-card"></i>  
+                            </div>  
+                            <span class="px-3 py-1 rounded-full bg-sky-500/10 text-sky-400 text-xs font-semibold border border-sky-500/20">SMS Verification Gateway</span>  
+                        </div>  
+
+                        <h3 class="text-2xl font-bold dark:text-white text-slate-900">XWD SMS</h3>  
+                        <p class="font-mono text-xs text-sky-400 mt-0.5 mb-4">t.me/xwdsmsdiscussion/15390</p>  
+
+                        <p class="dark:text-slate-300 text-slate-600 text-sm leading-relaxed">  
+                            A reliable virtual phone number service providing instant SMS verification, continuous OTP fetching, and programmatic REST API access.  
+                        </p>  
+
+                        <ul class="mt-6 space-y-2.5 text-xs font-medium dark:text-slate-300 text-slate-700">  
+                            <li class="flex items-center gap-2.5"><i class="fas fa-check-circle text-sky-400"></i> Real-time automated OTP code retrieval</li>  
+                            <li class="flex items-center gap-2.5"><i class="fas fa-check-circle text-sky-400"></i> International virtual number inventory</li>  
+                            <li class="flex items-center gap-2.5"><i class="fas fa-check-circle text-sky-400"></i> Direct Telegram bot & programmatic REST API</li>  
+                        </ul>  
+                    </div>  
+
+                    <div class="mt-8 pt-6 border-t border-slate-800">  
+                        <a href="https://t.me/xwdsmsdiscussion/15390" target="_blank" class="w-full inline-flex items-center justify-center gap-2 px-4 py-3 rounded-xl bg-sky-600 hover:bg-sky-500 text-white text-xs font-semibold transition-all shadow-md shadow-sky-600/20">  
+                            <i class="fab fa-telegram-plane"></i> Access XWD SMS Gateway  
+                        </a>  
+                    </div>  
+                </div>  
+
+                <!-- XWD APP Card -->  
+                <div class="glass-card rounded-2xl p-8 flex flex-col justify-between group">  
+                    <div>  
+                        <div class="flex items-center justify-between mb-6">  
+                            <div class="w-12 h-12 rounded-2xl bg-purple-500/20 text-purple-400 border border-purple-500/30 flex items-center justify-center text-xl shadow-inner group-hover:scale-110 transition-transform">  
+                                <i class="fas fa-robot"></i>  
+                            </div>  
+                            <span class="px-3 py-1 rounded-full bg-purple-500/10 text-purple-400 text-xs font-semibold border border-purple-500/20">Account Automation</span>  
+                        </div>  
+
+                        <h3 class="text-2xl font-bold dark:text-white text-slate-900">XWD APP</h3>  
+                        <p class="font-mono text-xs text-purple-400 mt-0.5 mb-4">t.me/xwdsmsdiscussion/15388</p>  
+
+                        <p class="dark:text-slate-300 text-slate-600 text-sm leading-relaxed">  
+                            A multi-threaded account management pipeline integrated directly with XWD SMS for automated phone verifications, proxy switching, and profile setup.  
+                        </p>  
+
+                        <ul class="mt-6 space-y-2.5 text-xs font-medium dark:text-slate-300 text-slate-700">  
+                            <li class="flex items-center gap-2.5"><i class="fas fa-check-circle text-purple-400"></i> Multi-threaded batch creation engine</li>  
+                            <li class="flex items-center gap-2.5"><i class="fas fa-check-circle text-purple-400"></i> Dynamic HTTP/SOCKS5 proxy rotation</li>  
+                            <li class="flex items-center gap-2.5"><i class="fas fa-check-circle text-purple-400"></i> Direct XWD SMS API integration</li>  
+                        </ul>  
+                    </div>  
+
+                    <div class="mt-8 pt-6 border-t border-slate-800">  
+                        <a href="https://t.me/xwdsmsdiscussion/15388" target="_blank" class="w-full inline-flex items-center justify-center gap-2 px-4 py-3 rounded-xl bg-purple-600 hover:bg-purple-500 text-white text-xs font-semibold transition-all shadow-md shadow-purple-600/20">  
+                            <i class="fab fa-telegram-plane"></i> Open XWD APP Channel  
+                        </a>  
+                    </div>  
+                </div>  
+            </div>  
+
+            <!-- Community Banner -->  
+            <div class="glass-card rounded-2xl p-6 mt-8 flex flex-col sm:flex-row items-center justify-between gap-4 border-slate-800">  
+                <div>  
+                    <h4 class="font-bold dark:text-white text-slate-900 text-sm flex items-center gap-2">
+                        <i class="fas fa-comments text-sky-400"></i> Need custom automation or live support?
+                    </h4>  
+                    <p class="text-xs dark:text-slate-400 text-slate-500 mt-1">Join our active discussion group for script requests, API keys, and updates.</p>  
+                </div>  
+                <div class="flex items-center gap-3 w-full sm:w-auto">  
+                    <a href="https://t.me/xwdsmsdiscussion" target="_blank" class="flex-1 sm:flex-initial text-center px-4 py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 dark:text-slate-200 text-slate-800 font-semibold text-xs transition-colors border border-slate-700">  
+                        Community Group  
+                    </a>  
+                    <a href="https://t.me/xwd_sms" target="_blank" class="flex-1 sm:flex-initial text-center px-4 py-2.5 rounded-xl bg-brand-500 hover:bg-brand-600 text-white font-semibold text-xs transition-colors shadow-md shadow-brand-500/20">  
+                        Announcements  
+                    </a>  
+                </div>  
+            </div>  
+        </section>  
+  
+        <!-- ================= REPOSITORIES / PROJECTS ================= -->  
+        <section id="python" class="py-20 border-t border-slate-800/80 reveal">  
+            <div class="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-8">  
+                <div>  
+                    <span class="font-mono text-xs font-bold text-brand-400 uppercase tracking-widest">GitHub Portfolio</span>  
+                    <h2 class="text-3xl sm:text-4xl font-extrabold dark:text-white text-slate-900 mt-2">Python Projects</h2>  
+                </div>  
+                <a href="https://github.com/YunickXwd01" target="_blank" class="inline-flex items-center gap-2 text-xs font-mono font-semibold text-slate-400 hover:text-sky-400 transition-colors">  
+                    github.com/YunickXwd01 <i class="fas fa-arrow-right text-[10px]"></i>  
+                </a>  
+            </div>  
+
+            <!-- Search and Filter Bar -->
+            <div class="flex flex-col sm:flex-row items-center justify-between gap-4 mb-8 bg-slate-900/60 p-3 rounded-2xl border border-slate-800">
+                <div class="flex items-center gap-2 overflow-x-auto w-full sm:w-auto">
+                    <button onclick="filterRepos('all')" class="repo-filter-btn px-3.5 py-1.5 rounded-xl bg-brand-500 text-white text-xs font-mono font-semibold transition-all">All</button>
+                    <button onclick="filterRepos('python')" class="repo-filter-btn px-3.5 py-1.5 rounded-xl bg-slate-800 text-slate-400 text-xs font-mono font-semibold hover:text-white transition-all">Python</button>
+                    <button onclick="filterRepos('security')" class="repo-filter-btn px-3.5 py-1.5 rounded-xl bg-slate-800 text-slate-400 text-xs font-mono font-semibold hover:text-white transition-all">Security</button>
+                    <button onclick="filterRepos('api')" class="repo-filter-btn px-3.5 py-1.5 rounded-xl bg-slate-800 text-slate-400 text-xs font-mono font-semibold hover:text-white transition-all">API</button>
+                </div>
+
+                <div class="relative w-full sm:w-64">
+                    <i class="fas fa-search absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-500 text-xs"></i>
+                    <input type="text" id="repoSearchInput" onkeyup="searchRepos()" placeholder="Search projects..." class="w-full bg-slate-950 border border-slate-800 rounded-xl pl-9 pr-4 py-1.5 text-xs font-mono text-slate-200 placeholder-slate-500 focus:outline-none focus:border-brand-500">
+                </div>
+            </div>
+  
+            <div id="repoGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">  
+                <!-- Tool 1: FB Auto Crate -->  
+                <div class="repo-card glass-card rounded-xl p-6 flex flex-col justify-between group" data-category="python api">  
+                    <div>  
+                        <div class="flex items-center justify-between mb-3">  
+                            <span class="font-mono text-xs text-slate-400">YunickXwd01/Auto_Crate</span>  
+                            <div class="w-8 h-8 rounded-lg bg-amber-500/10 border border-amber-500/20 flex items-center justify-center group-hover:scale-110 group-hover:rotate-12 transition-all duration-300">
+                                <i class="fab fa-python text-amber-400 text-lg group-hover:animate-bounce"></i>  
+                            </div>
+                        </div>  
+                        <h3 class="font-bold dark:text-white text-slate-900 text-base">FB Auto Crate</h3>  
+                        <p class="text-xs dark:text-slate-400 text-slate-600 mt-2 leading-relaxed">  
+                            Automated Facebook account creation with multi-threading, proxy rotation, and email verification handling.  
+                        </p>  
+                        <div class="mt-3 font-mono text-[11px] text-emerald-400 bg-slate-950/60 p-2 rounded border border-slate-800">
+                            $ python auto_crate.py
                         </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- ================= MARQUEE STRIP ================= -->
-        <section class="py-6 border-y border-[#e8e2d8] -mx-5 sm:-mx-8 px-5 sm:px-8 overflow-hidden">
-            <div class="marquee">
-                <div class="marquee-track">
-                    <span class="font-display italic text-[18px] text-[#57534e] whitespace-nowrap">Python Automation</span>
-                    <span class="text-[#c2410c] text-xl">✦</span>
-                    <span class="font-display italic text-[18px] text-[#57534e] whitespace-nowrap">XWD SMS Virtual Numbers</span>
-                    <span class="text-[#c2410c] text-xl">✦</span>
-                    <span class="font-display italic text-[18px] text-[#57534e] whitespace-nowrap">XWD APP Facebook Creator</span>
-                    <span class="text-[#c2410c] text-xl">✦</span>
-                    <span class="font-display italic text-[18px] text-[#57534e] whitespace-nowrap">Telegram Bots</span>
-                    <span class="text-[#c2410c] text-xl">✦</span>
-                    <span class="font-display italic text-[18px] text-[#57534e] whitespace-nowrap">Social Media Auditing</span>
-                    <span class="text-[#c2410c] text-xl">✦</span>
-                    <span class="font-display italic text-[18px] text-[#57534e] whitespace-nowrap">REST APIs</span>
-                    <span class="text-[#c2410c] text-xl">✦</span>
-                </div>
-                <div class="marquee-track" aria-hidden="true">
-                    <span class="font-display italic text-[18px] text-[#57534e] whitespace-nowrap">Python Automation</span>
-                    <span class="text-[#c2410c] text-xl">✦</span>
-                    <span class="font-display italic text-[18px] text-[#57534e] whitespace-nowrap">XWD SMS Virtual Numbers</span>
-                    <span class="text-[#c2410c] text-xl">✦</span>
-                    <span class="font-display italic text-[18px] text-[#57534e] whitespace-nowrap">XWD APP Facebook Creator</span>
-                    <span class="text-[#c2410c] text-xl">✦</span>
-                    <span class="font-display italic text-[18px] text-[#57534e] whitespace-nowrap">Telegram Bots</span>
-                    <span class="text-[#c2410c] text-xl">✦</span>
-                    <span class="font-display italic text-[18px] text-[#57534e] whitespace-nowrap">Social Media Auditing</span>
-                    <span class="text-[#c2410c] text-xl">✦</span>
-                    <span class="font-display italic text-[18px] text-[#57534e] whitespace-nowrap">REST APIs</span>
-                    <span class="text-[#c2410c] text-xl">✦</span>
-                </div>
-            </div>
-        </section>
-
-        <!-- ================= XWD APPS SECTION ================= -->
-        <section id="work" class="py-20 reveal">
-            <div class="mb-12">
-                <span class="section-label">The XWD Ecosystem</span>
-                <h2 class="font-display font-black text-[36px] sm:text-[46px] leading-[1.05] tracking-tight text-[#1c1917] mt-3 max-w-2xl">
-                    Two apps. <span class="italic">One mission.</span>
-                </h2>
-                <p class="text-[15px] text-[#57534e] mt-4 max-w-xl leading-relaxed">
-                    XWD SMS gives you virtual numbers. XWD APP uses those numbers to create Facebook accounts automatically. They're designed as a pair.
-                </p>
-            </div>
-
-            <div class="grid grid-cols-1 lg:grid-cols-2 gap-7">
-                <!-- XWD SMS Card -->
-                <div class="app-sms p-7 drift" style="animation-delay: 0s;">
-                    <div class="flex items-start justify-between mb-5">
-                        <div class="w-14 h-14 rounded-2xl bg-[#0284c7] flex items-center justify-center text-white text-2xl shadow-[4px_4px_0_#1c1917]">
-                            <i class="fas fa-sim-card"></i>
+                    </div>  
+                    <div class="mt-6 pt-4 border-t border-slate-800 flex items-center justify-between">  
+                        <div class="flex items-center gap-1.5">
+                            <span class="px-2 py-0.5 rounded bg-slate-800 text-[10px] font-mono text-amber-400">Python 3</span>
+                            <span class="px-2 py-0.5 rounded bg-slate-800 text-[10px] font-mono text-sky-400">Threading</span>
                         </div>
-                        <span class="stamp stamp-sky">Virtual SMS</span>
-                    </div>
-
-                    <h3 class="font-display font-black text-[28px] text-[#1c1917] leading-tight">XWD SMS</h3>
-                    <p class="font-mono text-[11.5px] text-[#0284c7] mt-1 mb-4">t.me/xwd_sms</p>
-
-                    <p class="text-[14.5px] text-[#44403c] leading-relaxed">
-                        A virtual phone number platform for instant SMS verifications, continuous OTP reception, and clean API integration across services worldwide.
-                    </p>
-
-                    <ul class="mt-5 space-y-2.5 text-[13.5px] text-[#1c1917]">
-                        <li class="flex items-start gap-2.5">
-                            <i class="fas fa-bolt text-[#0284c7] text-xs mt-1.5"></i>
-                            <span>Rapid automated OTP code retrieval</span>
-                        </li>
-                        <li class="flex items-start gap-2.5">
-                            <i class="fas fa-globe text-[#0284c7] text-xs mt-1.5"></i>
-                            <span>Multi-country virtual number selection</span>
-                        </li>
-                        <li class="flex items-start gap-2.5">
-                            <i class="fab fa-telegram text-[#0284c7] text-xs mt-1.5"></i>
-                            <span>Telegram bot + web gateway access</span>
-                        </li>
-                        <li class="flex items-start gap-2.5">
-                            <i class="fas fa-plug text-[#0284c7] text-xs mt-1.5"></i>
-                            <span>REST API for apps like XWD APP</span>
-                        </li>
-                    </ul>
-
-                    <div class="flex flex-wrap gap-2 mt-5">
-                        <span class="chip">Virtual SMS</span>
-                        <span class="chip">OTP</span>
-                        <span class="chip">API</span>
-                    </div>
-
-                    <div class="mt-7">
-                        <a href="https://t.me/xwd_sms" target="_blank" class="tg-pill tg-sky w-full justify-center">
-                            <i class="fab fa-telegram-plane"></i> Open XWD SMS Channel
-                        </a>
-                    </div>
-                </div>
-
-                <!-- XWD APP Card -->
-                <div class="app-xwd p-7 drift" style="animation-delay: 2s;">
-                    <div class="flex items-start justify-between mb-5">
-                        <div class="w-14 h-14 rounded-2xl bg-[#7c3aed] flex items-center justify-center text-white text-2xl shadow-[4px_4px_0_#1c1917]">
-                            <i class="fas fa-robot"></i>
+                        <div class="flex items-center gap-2">
+                            <button onclick="copyRepoCmd('git clone https://github.com/YunickXwd01/Auto_Crate.git')" class="text-[11px] font-mono text-slate-400 hover:text-amber-400 transition-colors" title="Copy Clone Command">
+                                <i class="far fa-copy"></i>
+                            </button>
+                            <a href="https://github.com/YunickXwd01/Auto_Crate" target="_blank" class="px-3 py-1 rounded-lg bg-sky-500/10 hover:bg-sky-500/20 border border-sky-500/30 text-xs font-semibold text-sky-400 transition-all flex items-center gap-1.5">
+                                View repo <i class="fas fa-arrow-right text-[10px]"></i>
+                            </a>  
                         </div>
-                        <span class="stamp stamp-purple">Auto Creator</span>
-                    </div>
+                    </div>  
+                </div>  
+  
+                <!-- Tool 2: FB Account Tool -->  
+                <div class="repo-card glass-card rounded-xl p-6 flex flex-col justify-between group" data-category="security api">  
+                    <div>  
+                        <div class="flex items-center justify-between mb-3">  
+                            <span class="font-mono text-xs text-slate-400">YunickXwd01/Fb_Cloning</span>  
+                            <div class="w-8 h-8 rounded-lg bg-indigo-500/10 border border-indigo-500/20 flex items-center justify-center group-hover:scale-110 group-hover:-rotate-12 transition-all duration-300">
+                                <i class="fas fa-shield-alt text-indigo-400 text-base group-hover:animate-pulse"></i>  
+                            </div>
+                        </div>  
+                        <h3 class="font-bold dark:text-white text-slate-900 text-base">FB Cloning Tool</h3>  
+                        <p class="text-xs dark:text-slate-400 text-slate-600 mt-2 leading-relaxed">  
+                            Facebook account auditing for security research — cookie extraction, access token generation, and resistance analysis.  
+                        </p>  
+                        <div class="mt-3 font-mono text-[11px] text-emerald-400 bg-slate-950/60 p-2 rounded border border-slate-800">
+                            $ python fb_clone.py
+                        </div>
+                    </div>  
+                    <div class="mt-6 pt-4 border-t border-slate-800 flex items-center justify-between">  
+                        <div class="flex items-center gap-1.5">
+                            <span class="px-2 py-0.5 rounded bg-slate-800 text-[10px] font-mono text-indigo-400">Graph API</span>
+                            <span class="px-2 py-0.5 rounded bg-slate-800 text-[10px] font-mono text-purple-400">Tokens</span>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <button onclick="copyRepoCmd('git clone https://github.com/YunickXwd01/Fb_Cloning.git')" class="text-[11px] font-mono text-slate-400 hover:text-indigo-400 transition-colors" title="Copy Clone Command">
+                                <i class="far fa-copy"></i>
+                            </button>
+                            <a href="https://github.com/YunickXwd01/Fb_Cloning" target="_blank" class="px-3 py-1 rounded-lg bg-sky-500/10 hover:bg-sky-500/20 border border-sky-500/30 text-xs font-semibold text-sky-400 transition-all flex items-center gap-1.5">
+                                View repo <i class="fas fa-arrow-right text-[10px]"></i>
+                            </a>  
+                        </div>
+                    </div>  
+                </div>  
+  
+                <!-- Tool 3: Profile Guard -->  
+                <div class="repo-card glass-card rounded-xl p-6 flex flex-col justify-between group" data-category="security python">  
+                    <div>  
+                        <div class="flex items-center justify-between mb-3">  
+                            <span class="font-mono text-xs text-slate-400">YunickXwd01/profile_guard</span>  
+                            <div class="w-8 h-8 rounded-lg bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center group-hover:scale-110 group-hover:rotate-12 transition-all duration-300">
+                                <i class="fas fa-lock text-emerald-400 text-base group-hover:animate-bounce"></i>  
+                            </div>
+                        </div>  
+                        <h3 class="font-bold dark:text-white text-slate-900 text-base">FB Profile Guard</h3>  
+                        <p class="text-xs dark:text-slate-400 text-slate-600 mt-2 leading-relaxed">  
+                            Enables Facebook profile picture guard and lock shield using Graph API — instant protection without app restrictions.  
+                        </p>  
+                        <div class="mt-3 font-mono text-[11px] text-emerald-400 bg-slate-950/60 p-2 rounded border border-slate-800">
+                            $ python guard.py
+                        </div>
+                    </div>  
+                    <div class="mt-6 pt-4 border-t border-slate-800 flex items-center justify-between">  
+                        <div class="flex items-center gap-1.5">
+                            <span class="px-2 py-0.5 rounded bg-slate-800 text-[10px] font-mono text-emerald-400">Shield</span>
+                            <span class="px-2 py-0.5 rounded bg-slate-800 text-[10px] font-mono text-amber-400">GraphQL</span>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <button onclick="copyRepoCmd('git clone https://github.com/YunickXwd01/profile_guard.git')" class="text-[11px] font-mono text-slate-400 hover:text-emerald-400 transition-colors" title="Copy Clone Command">
+                                <i class="far fa-copy"></i>
+                            </button>
+                            <a href="https://github.com/YunickXwd01/profile_guard" target="_blank" class="px-3 py-1 rounded-lg bg-sky-500/10 hover:bg-sky-500/20 border border-sky-500/30 text-xs font-semibold text-sky-400 transition-all flex items-center gap-1.5">
+                                View repo <i class="fas fa-arrow-right text-[10px]"></i>
+                            </a>  
+                        </div>
+                    </div>  
+                </div>  
+  
+                <!-- Tool 4: Instagram Multi Tool -->  
+                <div class="repo-card glass-card rounded-xl p-6 flex flex-col justify-between group" data-category="security">  
+                    <div>  
+                        <div class="flex items-center justify-between mb-3">  
+                            <span class="font-mono text-xs text-slate-400">YunickXwd01/Instagram_tool</span>  
+                            <div class="w-8 h-8 rounded-lg bg-rose-500/10 border border-rose-500/20 flex items-center justify-center group-hover:scale-110 group-hover:-rotate-12 transition-all duration-300">
+                                <i class="fab fa-instagram text-rose-400 text-base group-hover:animate-spin"></i>  
+                            </div>
+                        </div>  
+                        <h3 class="font-bold dark:text-white text-slate-900 text-base">IG Security Tool</h3>  
+                        <p class="text-xs dark:text-slate-400 text-slate-600 mt-2 leading-relaxed">  
+                            Instagram password resistance and security audit — tests rate limits, IP rotation resilience, and complexity enforcement.  
+                        </p>  
+                        <div class="mt-3 font-mono text-[11px] text-emerald-400 bg-slate-950/60 p-2 rounded border border-slate-800">
+                            $ python ig_tool.py
+                        </div>
+                    </div>  
+                    <div class="mt-6 pt-4 border-t border-slate-800 flex items-center justify-between">  
+                        <div class="flex items-center gap-1.5">
+                            <span class="px-2 py-0.5 rounded bg-slate-800 text-[10px] font-mono text-rose-400">Rate Limits</span>
+                            <span class="px-2 py-0.5 rounded bg-slate-800 text-[10px] font-mono text-cyan-400">Proxies</span>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <button onclick="copyRepoCmd('git clone https://github.com/YunickXwd01/Instagram_tool.git')" class="text-[11px] font-mono text-slate-400 hover:text-rose-400 transition-colors" title="Copy Clone Command">
+                                <i class="far fa-copy"></i>
+                            </button>
+                            <a href="https://github.com/YunickXwd01/Instagram_tool" target="_blank" class="px-3 py-1 rounded-lg bg-sky-500/10 hover:bg-sky-500/20 border border-sky-500/30 text-xs font-semibold text-sky-400 transition-all flex items-center gap-1.5">
+                                View repo <i class="fas fa-arrow-right text-[10px]"></i>
+                            </a>  
+                        </div>
+                    </div>  
+                </div>  
+  
+                <!-- Tool 5: IGX Automation Tool -->  
+                <div class="repo-card glass-card rounded-xl p-6 flex flex-col justify-between group" data-category="python">  
+                    <div>  
+                        <div class="flex items-center justify-between mb-3">  
+                            <span class="font-mono text-xs text-slate-400">YunickXwd01/igx</span>  
+                            <div class="w-8 h-8 rounded-lg bg-cyan-500/10 border border-cyan-500/20 flex items-center justify-center group-hover:scale-110 group-hover:rotate-12 transition-all duration-300">
+                                <i class="fas fa-user-plus text-cyan-400 text-base group-hover:animate-pulse"></i>  
+                            </div>
+                        </div>  
+                        <h3 class="font-bold dark:text-white text-slate-900 text-base">IGX Followers Engine</h3>  
+                        <p class="text-xs dark:text-slate-400 text-slate-600 mt-2 leading-relaxed">  
+                            Instagram growth and follower automation — target scanning, session management, auto-follow loops, and analytics.  
+                        </p>  
+                        <div class="mt-3 font-mono text-[11px] text-emerald-400 bg-slate-950/60 p-2 rounded border border-slate-800">
+                            $ python igx.py
+                        </div>
+                    </div>  
+                    <div class="mt-6 pt-4 border-t border-slate-800 flex items-center justify-between">  
+                        <div class="flex items-center gap-1.5">
+                            <span class="px-2 py-0.5 rounded bg-slate-800 text-[10px] font-mono text-cyan-400">Growth</span>
+                            <span class="px-2 py-0.5 rounded bg-slate-800 text-[10px] font-mono text-purple-400">Sessions</span>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <button onclick="copyRepoCmd('git clone https://github.com/YunickXwd01/igx.git')" class="text-[11px] font-mono text-slate-400 hover:text-cyan-400 transition-colors" title="Copy Clone Command">
+                                <i class="far fa-copy"></i>
+                            </button>
+                            <a href="https://github.com/YunickXwd01/igx" target="_blank" class="px-3 py-1 rounded-lg bg-sky-500/10 hover:bg-sky-500/20 border border-sky-500/30 text-xs font-semibold text-sky-400 transition-all flex items-center gap-1.5">
+                                View repo <i class="fas fa-arrow-right text-[10px]"></i>
+                            </a>  
+                        </div>
+                    </div>  
+                </div>  
 
-                    <h3 class="font-display font-black text-[28px] text-[#1c1917] leading-tight">XWD APP</h3>
-                    <p class="font-mono text-[11.5px] text-[#7c3aed] mt-1 mb-4">t.me/xwd_sms</p>
-
-                    <p class="text-[14.5px] text-[#44403c] leading-relaxed">
-                        An automation powerhouse that creates unlimited Facebook accounts automatically using the XWD SMS API for verification. Multi-threaded and proxy-ready.
-                    </p>
-
-                    <ul class="mt-5 space-y-2.5 text-[13.5px] text-[#1c1917]">
-                        <li class="flex items-start gap-2.5">
-                            <i class="fas fa-infinity text-[#7c3aed] text-xs mt-1.5"></i>
-                            <span>Unlimited Facebook account creation</span>
-                        </li>
-                        <li class="flex items-start gap-2.5">
-                            <i class="fas fa-link text-[#7c3aed] text-xs mt-1.5"></i>
-                            <span>Direct XWD SMS API for OTP handling</span>
-                        </li>
-                        <li class="flex items-start gap-2.5">
-                            <i class="fas fa-shield-alt text-[#7c3aed] text-xs mt-1.5"></i>
-                            <span>Proxy rotation & anti-detection</span>
-                        </li>
-                        <li class="flex items-start gap-2.5">
-                            <i class="fas fa-database text-[#7c3aed] text-xs mt-1.5"></i>
-                            <span>Auto profile setup & data export</span>
-                        </li>
-                    </ul>
-
-                    <div class="flex flex-wrap gap-2 mt-5">
-                        <span class="chip">FB Creator</span>
-                        <span class="chip">Multi-threaded</span>
-                        <span class="chip">Proxy Ready</span>
-                    </div>
-
-                    <div class="mt-7">
-                        <a href="https://t.me/xwd_sms" target="_blank" class="tg-pill tg-purple w-full justify-center">
-                            <i class="fab fa-telegram-plane"></i> Open XWD APP Channel
-                        </a>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Shared channels banner -->
-            <div class="card-warm mt-7 p-6 flex flex-col sm:flex-row items-center justify-between gap-5">
-                <div class="flex items-center gap-4">
-                    <div class="w-12 h-12 rounded-full bg-[#faf8f4] border-1.5 border-[#1c1917] flex items-center justify-center text-[#c2410c] text-lg flex-shrink-0">
-                        <i class="fas fa-comments"></i>
-                    </div>
-                    <div>
-                        <p class="font-display font-bold text-[16px] text-[#1c1917] leading-snug">These apps have their own discussion chat & information channel</p>
-                        <p class="text-[13px] text-[#57534e] mt-0.5">Updates, support, and the community for both XWD SMS and XWD APP live here.</p>
-                    </div>
-                </div>
-                <div class="flex items-center gap-2 flex-shrink-0">
-                    <a href="https://t.me/xwdsmsdiscussion" target="_blank" class="tg-pill tg-ink text-[12px] py-2.5 px-4">
-                        <i class="fas fa-comments"></i> Discussion
+                <!-- Custom request card -->  
+                <div class="repo-card glass-card rounded-xl p-6 flex flex-col justify-center items-center text-center border-dashed border-slate-800 group">  
+                    <div class="w-10 h-10 rounded-xl bg-sky-500/10 border border-sky-500/20 flex items-center justify-center text-sky-400 mb-3 group-hover:scale-110 group-hover:rotate-6 transition-transform">  
+                        <i class="fas fa-terminal text-sky-400 group-hover:animate-pulse"></i>  
+                    </div>  
+                    <h3 class="font-bold dark:text-white text-slate-900 text-sm">Need a custom script?</h3>  
+                    <p class="text-xs dark:text-slate-400 text-slate-500 mt-1 max-w-[200px]">I write custom scrapers, Telegram bots, and API tools to spec.</p>  
+                    <a href="https://t.me/YunickXwd" target="_blank" class="mt-4 px-4 py-2 rounded-xl bg-brand-500 hover:bg-brand-600 text-white text-xs font-mono font-semibold transition-all shadow-md shadow-brand-500/20 flex items-center gap-2">
+                        <i class="fab fa-telegram-plane"></i> Contact Direct
                     </a>
-                    <a href="https://t.me/xwd_sms" target="_blank" class="tg-pill tg-sky text-[12px] py-2.5 px-4">
-                        <i class="fas fa-bullhorn"></i> Info
-                    </a>
-                </div>
-            </div>
-        </section>
+                </div>  
+            </div>  
+        </section>  
+  
+        <!-- ================= SERVICES ================= -->  
+        <section id="services" class="py-20 border-t border-slate-800/80 reveal">  
+            <div class="max-w-2xl mb-12">  
+                <span class="font-mono text-xs font-bold text-brand-400 uppercase tracking-widest">Capabilities</span>  
+                <h2 class="text-3xl sm:text-4xl font-extrabold dark:text-white text-slate-900 mt-2">What I Can Build For You</h2>  
+            </div>  
+  
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">  
+                <div class="glass-card rounded-xl p-6">  
+                    <div class="w-10 h-10 rounded-xl bg-sky-500/20 text-sky-400 border border-sky-500/30 flex items-center justify-center text-base mb-4 font-bold font-mono">01</div>  
+                    <h3 class="font-bold dark:text-white text-slate-900 text-base">Custom Automation</h3>  
+                    <p class="text-xs dark:text-slate-400 text-slate-600 mt-2 leading-relaxed">Multi-threaded web scrapers, proxy rotators, session managers, and automated data processing scripts.</p>  
+                </div>  
 
-        <!-- ================= PYTHON ARSENAL ================= -->
-        <section id="python" class="py-20 border-t border-[#e8e2d8] reveal">
-            <div class="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12">
-                <div>
-                    <span class="section-label">Open Source</span>
-                    <h2 class="font-display font-black text-[36px] sm:text-[46px] leading-[1.05] tracking-tight text-[#1c1917] mt-3">
-                        Python <span class="italic">arsenal</span>
-                    </h2>
-                    <p class="text-[15px] text-[#57534e] mt-4 max-w-lg leading-relaxed">
-                        Automation, account tools, and security audit scripts — all open source on my GitHub.
-                    </p>
-                </div>
-                <a href="https://github.com/YunickXwd01" target="_blank" class="btn-outline self-start md:self-auto">
-                    <i class="fab fa-github"></i> All repos
-                </a>
-            </div>
+                <div class="glass-card rounded-xl p-6">  
+                    <div class="w-10 h-10 rounded-xl bg-purple-500/20 text-purple-400 border border-purple-500/30 flex items-center justify-center text-base mb-4 font-bold font-mono">02</div>  
+                    <h3 class="font-bold dark:text-white text-slate-900 text-base">Telegram Bots</h3>  
+                    <p class="text-xs dark:text-slate-400 text-slate-600 mt-2 leading-relaxed">Custom Pyrogram & Telethon userbots, session converters, notification bots, and group admin tools.</p>  
+                </div>  
 
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                <!-- Repo 1 -->
-                <div class="card-warm p-6">
-                    <div class="flex items-start justify-between mb-4">
-                        <div class="w-11 h-11 rounded-xl bg-[#fef3c7] border-1.5 border-[#1c1917] flex items-center justify-center text-[#92400e] text-lg">
-                            <i class="fas fa-robot"></i>
-                        </div>
-                        <span class="font-mono text-[10px] text-[#78716c] tracking-wide">FB AUTOMATION</span>
-                    </div>
-                    <h3 class="font-display font-bold text-[19px] text-[#1c1917]">FB Auto Crate</h3>
-                    <p class="font-mono text-[10.5px] text-[#78716c] mt-0.5 mb-3">YunickXwd01/Auto_Crate</p>
-                    <p class="text-[13px] text-[#57534e] leading-relaxed">
-                        Automated Facebook account creation with multi-threading, proxy rotation, and email verification handling.
-                    </p>
-                    <div class="code-warm mt-4 text-[10.5px]">
-                        <span class="c">$</span> <span class="k">python</span> auto_crate.py
-                    </div>
-                    <div class="flex flex-wrap gap-1.5 mt-4">
-                        <span class="chip">Python 3</span>
-                        <span class="chip">Threading</span>
-                    </div>
-                    <a href="https://github.com/YunickXwd01/Auto_Crate" target="_blank" class="inline-flex items-center gap-1.5 font-mono text-[11.5px] font-semibold text-[#1c1917] mt-5 hover:text-[#c2410c] transition-colors">
-                        View repo <i class="fas fa-arrow-right text-[10px]"></i>
-                    </a>
-                </div>
+                <div class="glass-card rounded-xl p-6">  
+                    <div class="w-10 h-10 rounded-xl bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 flex items-center justify-center text-base mb-4 font-bold font-mono">03</div>  
+                    <h3 class="font-bold dark:text-white text-slate-900 text-base">REST APIs</h3>  
+                    <p class="text-xs dark:text-slate-400 text-slate-600 mt-2 leading-relaxed">FastAPI backends, verification gateways, webhooks, and secure token middleware.</p>  
+                </div>  
+            </div>  
+        </section>  
+  
+        <!-- ================= TERMINAL ================= -->  
+        <section id="terminal" class="py-20 border-t border-slate-800/80 reveal">  
+            <div class="max-w-2xl mb-10">  
+                <span class="font-mono text-xs font-bold text-brand-400 uppercase tracking-widest">Interactive Sandbox</span>  
+                <h2 class="text-3xl sm:text-4xl font-extrabold dark:text-white text-slate-900 mt-2">Dev Shell Terminal</h2>  
+            </div>  
+  
+            <div class="terminal-window max-w-3xl overflow-hidden relative">  
+                <!-- Matrix Effect Canvas Overlay -->
+                <canvas id="matrixCanvas"></canvas>
 
-                <!-- Repo 2 -->
-                <div class="card-warm p-6">
-                    <div class="flex items-start justify-between mb-4">
-                        <div class="w-11 h-11 rounded-xl bg-[#e0e7ff] border-1.5 border-[#1c1917] flex items-center justify-center text-[#3730a3] text-lg">
-                            <i class="fas fa-clone"></i>
-                        </div>
-                        <span class="font-mono text-[10px] text-[#78716c] tracking-wide">SECURITY</span>
-                    </div>
-                    <h3 class="font-display font-bold text-[19px] text-[#1c1917]">FB Cloning Tool</h3>
-                    <p class="font-mono text-[10.5px] text-[#78716c] mt-0.5 mb-3">YunickXwd01/Fb_Cloning</p>
-                    <p class="text-[13px] text-[#57534e] leading-relaxed">
-                        Facebook account auditing for security research — cookie extraction, access token generation, and resistance analysis.
-                    </p>
-                    <div class="code-warm mt-4 text-[10.5px]">
-                        <span class="c">$</span> <span class="k">python</span> fb_clone.py
-                    </div>
-                    <div class="flex flex-wrap gap-1.5 mt-4">
-                        <span class="chip">Graph API</span>
-                        <span class="chip">Tokens</span>
-                    </div>
-                    <a href="https://github.com/YunickXwd01/Fb_Cloning" target="_blank" class="inline-flex items-center gap-1.5 font-mono text-[11.5px] font-semibold text-[#1c1917] mt-5 hover:text-[#c2410c] transition-colors">
-                        View repo <i class="fas fa-arrow-right text-[10px]"></i>
-                    </a>
-                </div>
+                <div class="flex items-center justify-between px-4 py-3 border-b border-slate-800 bg-slate-950/80 relative z-10">  
+                    <div class="flex items-center gap-2">  
+                        <span class="w-3 h-3 rounded-full bg-rose-500"></span>  
+                        <span class="w-3 h-3 rounded-full bg-amber-500"></span>  
+                        <span class="w-3 h-3 rounded-full bg-emerald-500"></span>  
+                        <span class="ml-2 font-mono text-xs text-slate-400">yunick@xwd-shell:~</span>  
+                    </div>  
+                </div>  
+  
+                <div class="flex flex-wrap items-center gap-2 px-4 py-2.5 border-b border-slate-800/80 bg-slate-900/50 relative z-10">  
+                    <span class="font-mono text-[11px] text-slate-500">quick commands:</span>  
+                    <button onclick="runCmd('python')" class="font-mono text-xs px-2.5 py-1 rounded bg-slate-800 hover:bg-slate-700 text-amber-400 transition-colors">python</button>  
+                    <button onclick="runCmd('channels')" class="font-mono text-xs px-2.5 py-1 rounded bg-slate-800 hover:bg-slate-700 text-sky-400 transition-colors">channels</button>  
+                    <button onclick="runCmd('matrix')" class="font-mono text-xs px-2.5 py-1 rounded bg-slate-800 hover:bg-slate-700 text-emerald-400 transition-colors">matrix</button>  
+                    <button onclick="runCmd('ping')" class="font-mono text-xs px-2.5 py-1 rounded bg-slate-800 hover:bg-slate-700 text-indigo-400 transition-colors">ping</button>  
+                    <button onclick="runCmd('help')" class="font-mono text-xs px-2.5 py-1 rounded bg-slate-800 hover:bg-slate-700 text-slate-300 transition-colors">help</button>  
+                    <button onclick="runCmd('clear')" class="font-mono text-xs px-2.5 py-1 rounded bg-slate-800 hover:bg-slate-700 text-slate-400 transition-colors ml-auto">clear</button>  
+                </div>  
+  
+                <div id="termOut" class="px-5 py-5 min-h-[220px] max-h-[320px] overflow-y-auto font-mono text-xs text-slate-200 space-y-2 relative z-10">  
+                    <p class="text-emerald-400">XWD interactive shell initialized.</p>  
+                    <p class="text-slate-400">Type <span class="text-amber-300">help</span> or click a quick command above.</p>  
+                </div>  
+  
+                <form onsubmit="onSubmit(event)" class="flex items-center gap-3 px-5 py-3.5 bg-slate-950 border-t border-slate-800/80 relative z-10">  
+                    <span class="font-mono text-xs text-emerald-400 font-bold">~$</span>  
+                    <input type="text" id="termIn" placeholder="enter command..." class="flex-1 bg-transparent font-mono text-xs text-slate-100 placeholder-slate-600 focus:outline-none" autocomplete="off" spellcheck="false" />  
+                    <button type="submit" class="font-mono text-xs px-3 py-1.5 rounded-lg bg-brand-500 hover:bg-brand-600 text-white font-semibold transition-colors">exec</button>  
+                </form>  
+            </div>  
+        </section>  
+  
+        <!-- ================= CTA ================= -->  
+        <section class="py-20 reveal">  
+            <div class="glass-card rounded-2xl p-10 sm:p-14 text-center border-slate-800 relative overflow-hidden group">  
+                <div class="absolute inset-0 bg-gradient-to-r from-sky-500/10 via-brand-500/10 to-purple-500/10 opacity-50 group-hover:opacity-100 transition-opacity"></div>
+                
+                <h2 class="text-3xl sm:text-4xl font-extrabold dark:text-white text-slate-900 relative z-10">Have a custom script or project in mind?</h2>  
+                <p class="dark:text-slate-300 text-slate-600 mt-4 text-base max-w-md mx-auto relative z-10">  
+                    Send over your requirements on Telegram. I'll evaluate the architecture and respond promptly.  
+                </p>  
+                <div class="mt-8 flex flex-wrap justify-center gap-4 relative z-10">  
+                    <a href="https://t.me/YunickXwd" target="_blank" class="inline-flex items-center gap-2 px-7 py-3.5 rounded-xl bg-brand-500 hover:bg-brand-600 text-white text-sm font-semibold transition-all shadow-lg shadow-brand-500/30">  
+                        <i class="fab fa-telegram-plane"></i> Message @YunickXwd  
+                    </a>  
+                    <a href="https://github.com/YunickXwd01" target="_blank" class="inline-flex items-center gap-2 px-7 py-3.5 rounded-xl bg-slate-900/80 hover:bg-slate-800 border border-slate-700 text-slate-200 text-sm font-semibold transition-all">  
+                        <i class="fab fa-github"></i> GitHub Profile  
+                    </a>  
+                </div>  
+            </div>  
+        </section>  
+  
+        <!-- ================= FOOTER ================= -->  
+        <footer class="py-8 border-t border-slate-800/80 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs font-mono dark:text-slate-400 text-slate-500">  
+            <div>  
+                © <span id="year">2026</span> Yunick Thami · Python & Systems Automation  
+            </div>  
+            <div class="flex gap-6">  
+                <a href="https://github.com/YunickXwd01" target="_blank" class="hover:text-sky-400 transition-colors">GitHub</a>  
+                <a href="https://t.me/xwdsmsdiscussion" target="_blank" class="hover:text-sky-400 transition-colors">Community</a>  
+                <a href="https://t.me/xwd_sms" target="_blank" class="hover:text-sky-400 transition-colors">Channel</a>  
+            </div>  
+        </footer>  
 
-                <!-- Repo 3 -->
-                <div class="card-warm p-6">
-                    <div class="flex items-start justify-between mb-4">
-                        <div class="w-11 h-11 rounded-xl bg-[#dcfce7] border-1.5 border-[#1c1917] flex items-center justify-center text-[#166534] text-lg">
-                            <i class="fas fa-shield-halved"></i>
-                        </div>
-                        <span class="font-mono text-[10px] text-[#78716c] tracking-wide">GUARD</span>
-                    </div>
-                    <h3 class="font-display font-bold text-[19px] text-[#1c1917]">FB Profile Guard</h3>
-                    <p class="font-mono text-[10.5px] text-[#78716c] mt-0.5 mb-3">YunickXwd01/profile_guard</p>
-                    <p class="text-[13px] text-[#57534e] leading-relaxed">
-                        Enables Facebook profile picture guard and lock shield using Graph API — instant protection without app restrictions.
-                    </p>
-                    <div class="code-warm mt-4 text-[10.5px]">
-                        <span class="c">$</span> <span class="k">python</span> guard.py
-                    </div>
-                    <div class="flex flex-wrap gap-1.5 mt-4">
-                        <span class="chip">Shield</span>
-                        <span class="chip">GraphQL</span>
-                    </div>
-                    <a href="https://github.com/YunickXwd01/profile_guard" target="_blank" class="inline-flex items-center gap-1.5 font-mono text-[11.5px] font-semibold text-[#1c1917] mt-5 hover:text-[#c2410c] transition-colors">
-                        View repo <i class="fas fa-arrow-right text-[10px]"></i>
-                    </a>
-                </div>
+    </main>  
 
-                <!-- Repo 4 -->
-                <div class="card-warm p-6">
-                    <div class="flex items-start justify-between mb-4">
-                        <div class="w-11 h-11 rounded-xl bg-[#fce7f3] border-1.5 border-[#1c1917] flex items-center justify-center text-[#9d174d] text-lg">
-                            <i class="fab fa-instagram"></i>
-                        </div>
-                        <span class="font-mono text-[10px] text-[#78716c] tracking-wide">IG AUDIT</span>
-                    </div>
-                    <h3 class="font-display font-bold text-[19px] text-[#1c1917]">IG Security Tool</h3>
-                    <p class="font-mono text-[10.5px] text-[#78716c] mt-0.5 mb-3">YunickXwd01/Instagram_tool</p>
-                    <p class="text-[13px] text-[#57534e] leading-relaxed">
-                        Instagram password resistance and security audit — tests rate limits, IP rotation resilience, and complexity enforcement.
-                    </p>
-                    <div class="code-warm mt-4 text-[10.5px]">
-                        <span class="c">$</span> <span class="k">python</span> ig_tool.py
-                    </div>
-                    <div class="flex flex-wrap gap-1.5 mt-4">
-                        <span class="chip">Rate Limits</span>
-                        <span class="chip">Proxies</span>
-                    </div>
-                    <a href="https://github.com/YunickXwd01/Instagram_tool" target="_blank" class="inline-flex items-center gap-1.5 font-mono text-[11.5px] font-semibold text-[#1c1917] mt-5 hover:text-[#c2410c] transition-colors">
-                        View repo <i class="fas fa-arrow-right text-[10px]"></i>
-                    </a>
-                </div>
+    <!-- ================= JAVASCRIPT ================= -->
+    <script>  
+        document.getElementById('year').textContent = new Date().getFullYear();  
 
-                <!-- Repo 5 -->
-                <div class="card-warm p-6 md:col-span-2 lg:col-span-1">
-                    <div class="flex items-start justify-between mb-4">
-                        <div class="w-11 h-11 rounded-xl bg-[#cffafe] border-1.5 border-[#1c1917] flex items-center justify-center text-[#155e75] text-lg">
-                            <i class="fas fa-users"></i>
-                        </div>
-                        <span class="font-mono text-[10px] text-[#78716c] tracking-wide">IGX</span>
-                    </div>
-                    <h3 class="font-display font-bold text-[19px] text-[#1c1917]">IGX Followers Engine</h3>
-                    <p class="font-mono text-[10.5px] text-[#78716c] mt-0.5 mb-3">YunickXwd01/igx</p>
-                    <p class="text-[13px] text-[#57534e] leading-relaxed">
-                        Instagram growth and follower automation — target scanning, session management, auto-follow loops, and analytics.
-                    </p>
-                    <div class="code-warm mt-4 text-[10.5px]">
-                        <span class="c">$</span> <span class="k">python</span> igx.py
-                    </div>
-                    <div class="flex flex-wrap gap-1.5 mt-4">
-                        <span class="chip">Growth</span>
-                        <span class="chip">Sessions</span>
-                    </div>
-                    <a href="https://github.com/YunickXwd01/igx" target="_blank" class="inline-flex items-center gap-1.5 font-mono text-[11.5px] font-semibold text-[#1c1917] mt-5 hover:text-[#c2410c] transition-colors">
-                        View repo <i class="fas fa-arrow-right text-[10px]"></i>
-                    </a>
-                </div>
+        // Toast Notification Function
+        function showToast(msg) {
+            const toast = document.getElementById('toast');
+            document.getElementById('toastMsg').textContent = msg;
+            toast.classList.remove('translate-y-20', 'opacity-0');
+            setTimeout(() => {
+                toast.classList.add('translate-y-20', 'opacity-0');
+            }, 3000);
+        }
 
-                <!-- Coming soon card -->
-                <div class="card-warm p-6 flex flex-col items-center justify-center text-center border-dashed">
-                    <div class="w-11 h-11 rounded-xl bg-[#faf8f4] border-1.5 border-[#1c1917] flex items-center justify-center text-[#1c1917] text-lg mb-3">
-                        <i class="fas fa-plus"></i>
-                    </div>
-                    <p class="font-display font-bold text-[16px] text-[#1c1917]">More coming</p>
-                    <p class="text-[12.5px] text-[#78716c] mt-1 max-w-[200px]">New tools ship every few weeks. Follow along on GitHub.</p>
-                </div>
-            </div>
-        </section>
+        // Reading Progress Bar
+        window.addEventListener('scroll', () => {
+            const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+            const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            const scrolled = (winScroll / height) * 100;
+            document.getElementById('progressBar').style.width = scrolled + '%';
+        });
 
-        <!-- ================= CHANNELS ================= -->
-        <section id="channels" class="py-20 border-t border-[#e8e2d8] reveal">
-            <div class="mb-12">
-                <span class="section-label">Community</span>
-                <h2 class="font-display font-black text-[36px] sm:text-[46px] leading-[1.05] tracking-tight text-[#1c1917] mt-3 max-w-2xl">
-                    Where to <span class="italic">find me</span>
-                </h2>
-                <p class="text-[15px] text-[#57534e] mt-4 max-w-xl leading-relaxed">
-                    Join the discussion chat or follow the information channel for updates on XWD SMS, XWD APP, and new Python releases.
-                </p>
-            </div>
+        // Theme Toggle Logic
+        const themeToggleBtn = document.getElementById('themeToggle');
+        themeToggleBtn.addEventListener('click', () => {
+            document.documentElement.classList.toggle('dark');
+            showToast(document.documentElement.classList.contains('dark') ? "Dark theme enabled" : "Light theme enabled");
+        });
 
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-7">
-                <!-- Discussion -->
-                <div class="card-notebook p-7">
-                    <div class="flex items-start justify-between mb-5">
-                        <div class="w-13 h-13 w-12 h-12 rounded-2xl bg-[#0284c7] flex items-center justify-center text-white text-xl shadow-[4px_4px_0_#1c1917]">
-                            <i class="fas fa-comments"></i>
-                        </div>
-                        <span class="stamp stamp-sky">Discussion</span>
-                    </div>
-                    <h3 class="font-display font-black text-[24px] text-[#1c1917] leading-tight">XWD Discussion Chat</h3>
-                    <p class="font-mono text-[11.5px] text-[#0284c7] mt-1 mb-4">t.me/xwdsmsdiscussion</p>
-                    <p class="text-[14px] text-[#44403c] leading-relaxed">
-                        The central community chat for XWD SMS and XWD APP users. Ask questions, report issues, request custom scripts, get live support.
-                    </p>
-                    <ul class="mt-5 space-y-2 text-[13px] text-[#1c1917]">
-                        <li class="flex items-start gap-2.5"><i class="fas fa-check text-[#0284c7] text-xs mt-1"></i> Live support & developer feedback</li>
-                        <li class="flex items-start gap-2.5"><i class="fas fa-check text-[#0284c7] text-xs mt-1"></i> New tool releases & command updates</li>
-                        <li class="flex items-start gap-2.5"><i class="fas fa-check text-[#0284c7] text-xs mt-1"></i> Community troubleshooting</li>
-                    </ul>
-                    <a href="https://t.me/xwdsmsdiscussion" target="_blank" class="tg-pill tg-sky w-full justify-center mt-6">
-                        <i class="fab fa-telegram-plane"></i> Join Discussion Chat
-                    </a>
-                </div>
+        // Mouse Spotlight Tracking Effect
+        document.querySelectorAll('.glass-card').forEach(card => {
+            card.addEventListener('mousemove', e => {
+                const rect = card.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                card.style.setProperty('--mouse-x', `${x}px`);
+                card.style.setProperty('--mouse-y', `${y}px`);
+            });
+        });
 
-                <!-- Info Channel -->
-                <div class="card-notebook p-7">
-                    <div class="flex items-start justify-between mb-5">
-                        <div class="w-12 h-12 rounded-2xl bg-[#c2410c] flex items-center justify-center text-white text-xl shadow-[4px_4px_0_#1c1917]">
-                            <i class="fas fa-bullhorn"></i>
-                        </div>
-                        <span class="stamp stamp-rust">Information</span>
-                    </div>
-                    <h3 class="font-display font-black text-[24px] text-[#1c1917] leading-tight">XWD Information Channel</h3>
-                    <p class="font-mono text-[11.5px] text-[#c2410c] mt-1 mb-4">t.me/xwd_sms</p>
-                    <p class="text-[14px] text-[#44403c] leading-relaxed">
-                        Official broadcast channel for XWD SMS and XWD APP — service updates, pricing changes, server status, and announcements.
-                    </p>
-                    <ul class="mt-5 space-y-2 text-[13px] text-[#1c1917]">
-                        <li class="flex items-start gap-2.5"><i class="fas fa-check text-[#c2410c] text-xs mt-1"></i> Official service rates & updates</li>
-                        <li class="flex items-start gap-2.5"><i class="fas fa-check text-[#c2410c] text-xs mt-1"></i> Maintenance & new country alerts</li>
-                        <li class="flex items-start gap-2.5"><i class="fas fa-check text-[#c2410c] text-xs mt-1"></i> Exclusive discounts & feature drops</li>
-                    </ul>
-                    <a href="https://t.me/xwd_sms" target="_blank" class="tg-pill tg-ink w-full justify-center mt-6">
-                        <i class="fab fa-telegram-plane"></i> Join Information Channel
-                    </a>
-                </div>
-            </div>
-        </section>
+        // Background Particle Mesh Engine
+        (function initBgCanvas() {
+            const canvas = document.getElementById('bgCanvas');
+            const ctx = canvas.getContext('2d');
+            let width = canvas.width = window.innerWidth;
+            let height = canvas.height = window.innerHeight;
 
-        <!-- ================= SERVICES ================= -->
-        <section id="services" class="py-20 border-t border-[#e8e2d8] reveal">
-            <div class="mb-12">
-                <span class="section-label">What I do</span>
-                <h2 class="font-display font-black text-[36px] sm:text-[46px] leading-[1.05] tracking-tight text-[#1c1917] mt-3 max-w-2xl">
-                    Services I <span class="italic">offer</span>
-                </h2>
-                <p class="text-[15px] text-[#57534e] mt-4 max-w-xl leading-relaxed">
-                    Custom Python automation, web platforms, Telegram bots, and security testing. Here's how I can help.
-                </p>
-            </div>
+            window.addEventListener('resize', () => {
+                width = canvas.width = window.innerWidth;
+                height = canvas.height = window.innerHeight;
+            });
 
-            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
-                <div class="card-warm p-6">
-                    <div class="w-10 h-10 rounded-xl bg-[#fef3c7] border-1.5 border-[#1c1917] flex items-center justify-center text-[#92400e] text-base mb-4">
-                        <i class="fab fa-python"></i>
-                    </div>
-                    <h3 class="font-display font-bold text-[17px] text-[#1c1917]">Python Automation</h3>
-                    <p class="text-[13px] text-[#57534e] leading-relaxed mt-2">Multi-threaded tools, scrapers, proxy rotators, and account automation scripts.</p>
-                </div>
+            const particles = Array.from({ length: 45 }, () => ({
+                x: Math.random() * width,
+                y: Math.random() * height,
+                vx: (Math.random() - 0.5) * 0.6,
+                vy: (Math.random() - 0.5) * 0.6,
+                r: Math.random() * 2 + 1
+            }));
 
-                <div class="card-warm p-6">
-                    <div class="w-10 h-10 rounded-xl bg-[#e0e7ff] border-1.5 border-[#1c1917] flex items-center justify-center text-[#3730a3] text-base mb-4">
-                        <i class="fas fa-code"></i>
-                    </div>
-                    <h3 class="font-display font-bold text-[17px] text-[#1c1917]">Full-Stack Web</h3>
-                    <p class="text-[13px] text-[#57534e] leading-relaxed mt-2">Modern responsive frontends with Python/Node backends and PostgreSQL.</p>
-                </div>
+            function animateBg() {
+                ctx.clearRect(0, 0, width, height);
+                ctx.fillStyle = '#0284c7';
+                ctx.strokeStyle = 'rgba(2, 132, 199, 0.12)';
 
-                <div class="card-warm p-6">
-                    <div class="w-10 h-10 rounded-xl bg-[#cffafe] border-1.5 border-[#1c1917] flex items-center justify-center text-[#155e75] text-base mb-4">
-                        <i class="fab fa-telegram-plane"></i>
-                    </div>
-                    <h3 class="font-display font-bold text-[17px] text-[#1c1917]">Telegram Bots</h3>
-                    <p class="text-[13px] text-[#57534e] leading-relaxed mt-2">Pyrogram/Telethon userbots, payment gates, and admin utilities.</p>
-                </div>
+                particles.forEach((p, i) => {
+                    p.x += p.vx;
+                    p.y += p.vy;
 
-                <div class="card-warm p-6">
-                    <div class="w-10 h-10 rounded-xl bg-[#dcfce7] border-1.5 border-[#1c1917] flex items-center justify-center text-[#166534] text-base mb-4">
-                        <i class="fas fa-server"></i>
-                    </div>
-                    <h3 class="font-display font-bold text-[17px] text-[#1c1917]">REST APIs</h3>
-                    <p class="text-[13px] text-[#57534e] leading-relaxed mt-2">Fast API gateways, webhooks, auth systems, and database optimization.</p>
-                </div>
+                    if (p.x < 0 || p.x > width) p.vx *= -1;
+                    if (p.y < 0 || p.y > height) p.vy *= -1;
 
-                <div class="card-warm p-6">
-                    <div class="w-10 h-10 rounded-xl bg-[#f3e8ff] border-1.5 border-[#1c1917] flex items-center justify-center text-[#6b21a8] text-base mb-4">
-                        <i class="fas fa-shield-cat"></i>
-                    </div>
-                    <h3 class="font-display font-bold text-[17px] text-[#1c1917]">Security Testing</h3>
-                    <p class="text-[13px] text-[#57534e] leading-relaxed mt-2">Rate limit analysis, payload inspection, header resilience, token audits.</p>
-                </div>
+                    ctx.beginPath();
+                    ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+                    ctx.fill();
 
-                <div class="card-warm p-6">
-                    <div class="w-10 h-10 rounded-xl bg-[#fce7f3] border-1.5 border-[#1c1917] flex items-center justify-center text-[#9d174d] text-base mb-4">
-                        <i class="fas fa-network-wired"></i>
-                    </div>
-                    <h3 class="font-display font-bold text-[17px] text-[#1c1917]">VPS Deployment</h3>
-                    <p class="text-[13px] text-[#57534e] leading-relaxed mt-2">Dockerizing, Linux VPS setup, systemd workers, and Nginx configs.</p>
-                </div>
-            </div>
-        </section>
-
-        <!-- ================= TERMINAL ================= -->
-        <section id="terminal" class="py-20 border-t border-[#e8e2d8] reveal">
-            <div class="mb-10">
-                <span class="section-label">Interactive</span>
-                <h2 class="font-display font-black text-[36px] sm:text-[46px] leading-[1.05] tracking-tight text-[#1c1917] mt-3 max-w-2xl">
-                    Try my <span class="italic">dev shell</span>
-                </h2>
-                <p class="text-[15px] text-[#57534e] mt-4 max-w-xl leading-relaxed">
-                    A little playground I built — run commands, see real latency benchmarks, and inspect your GPU. No backend, all client-side.
-                </p>
-            </div>
-
-            <div class="terminal-box max-w-3xl">
-                <!-- Header -->
-                <div class="flex items-center justify-between px-5 py-3 border-b border-[#292524]">
-                    <div class="flex items-center gap-2">
-                        <span class="w-3 h-3 rounded-full bg-[#ef4444]"></span>
-                        <span class="w-3 h-3 rounded-full bg-[#eab308]"></span>
-                        <span class="w-3 h-3 rounded-full bg-[#22c55e]"></span>
-                        <span class="ml-3 font-mono text-[11.5px] text-[#a8a29e]">yunick@xwd:~$ zsh</span>
-                    </div>
-                    <span class="font-mono text-[10.5px] text-[#78716c] hidden sm:inline">v3.1.0</span>
-                </div>
-
-                <!-- Quick buttons -->
-                <div class="flex flex-wrap items-center gap-2 px-5 py-4 bg-[#1c1917] border-b border-[#292524]">
-                    <span class="font-mono text-[10.5px] text-[#78716c] mr-1">try:</span>
-                    <button onclick="runCmd('python')" class="font-mono text-[11px] px-3 py-1.5 rounded-full bg-[#292524] hover:bg-[#c2410c] text-[#fbbf24] hover:text-white border border-[#44403c] transition-all">python</button>
-                    <button onclick="runCmd('channels')" class="font-mono text-[11px] px-3 py-1.5 rounded-full bg-[#292524] hover:bg-[#0284c7] text-[#7dd3fc] hover:text-white border border-[#44403c] transition-all">channels</button>
-                    <button onclick="runCmd('ping')" class="font-mono text-[11px] px-3 py-1.5 rounded-full bg-[#292524] hover:bg-[#c2410c] text-[#fbbf24] hover:text-white border border-[#44403c] transition-all">ping</button>
-                    <button onclick="runCmd('gpu')" class="font-mono text-[11px] px-3 py-1.5 rounded-full bg-[#292524] hover:bg-[#0284c7] text-[#7dd3fc] hover:text-white border border-[#44403c] transition-all">gpu</button>
-                    <button onclick="runCmd('help')" class="font-mono text-[11px] px-3 py-1.5 rounded-full bg-[#292524] hover:bg-[#4d7c0f] text-[#a3e635] hover:text-white border border-[#44403c] transition-all">help</button>
-                    <button onclick="runCmd('clear')" class="font-mono text-[11px] px-3 py-1.5 rounded-full bg-[#292524] hover:bg-[#44403c] text-[#a8a29e] hover:text-white border border-[#44403c] transition-all ml-auto">clear</button>
-                </div>
-
-                <!-- Output -->
-                <div id="termOut" class="terminal-body px-5 py-5 min-h-[220px] max-h-[340px] overflow-y-auto space-y-1.5">
-                    <p class="text-[#a3e635]">XWD dev shell — ready.</p>
-                    <p class="text-[#78716c]">Type <span class="text-[#fbbf24]">help</span> or tap a button above.</p>
-                </div>
-
-                <!-- Input -->
-                <form onsubmit="onSubmit(event)" class="flex items-center gap-3 px-5 py-4 bg-[#0b0b0f] border-t border-[#292524]">
-                    <span class="font-mono text-[12px] text-[#a3e635] font-semibold flex-shrink-0">~$</span>
-                    <input type="text" id="termIn" placeholder="type a command..." class="flex-1 bg-transparent text-[12.5px] font-mono text-[#e7e5e4] placeholder-[#57534e] focus:outline-none" autocomplete="off" spellcheck="false" />
-                    <button type="submit" class="font-mono text-[11.5px] px-4 py-1.5 rounded-full bg-[#c2410c] hover:bg-[#ea580c] text-white font-semibold transition-colors">run</button>
-                </form>
-            </div>
-        </section>
-
-        <!-- ================= CTA ================= -->
-        <section class="py-20 reveal">
-            <div class="card-notebook p-10 sm:p-14 text-center relative overflow-hidden">
-                <div class="absolute -top-16 -right-16 w-40 h-40 rounded-full bg-[#fde68a] opacity-50 blur-2xl pointer-events-none"></div>
-                <div class="absolute -bottom-16 -left-16 w-40 h-40 rounded-full bg-[#bae6fd] opacity-50 blur-2xl pointer-events-none"></div>
-
-                <div class="relative">
-                    <span class="stamp stamp-rust mx-auto">Let's talk</span>
-                    <h2 class="font-display font-black text-[36px] sm:text-[48px] leading-[1.05] tracking-tight text-[#1c1917] mt-5">
-                        Got a project<br>in mind?
-                    </h2>
-                    <p class="text-[15px] text-[#57534e] mt-4 max-w-md mx-auto leading-relaxed">
-                        Need custom Python automation, a Telegram bot, or an API integration? Ping me on Telegram — I usually reply same day.
-                    </p>
-                    <div class="mt-8 flex flex-wrap justify-center gap-3">
-                        <a href="https://t.me/YunickXwd" target="_blank" class="btn-ink">
-                            <i class="fab fa-telegram-plane"></i> @YunickXwd
-                        </a>
-                        <a href="https://github.com/YunickXwd01" target="_blank" class="btn-outline">
-                            <i class="fab fa-github"></i> GitHub
-                        </a>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- ================= FOOTER ================= -->
-        <footer class="py-10 border-t border-[#e8e2d8] flex flex-col sm:flex-row items-center justify-between gap-4">
-            <div class="font-mono text-[11px] text-[#78716c] text-center sm:text-left">
-                © <span id="year">2026</span> Yunick Thami · Built with coffee, Python, and curiosity.
-            </div>
-            <div class="flex flex-wrap items-center justify-center gap-6 font-mono text-[11px] text-[#78716c]">
-                <a href="https://github.com/YunickXwd01" target="_blank" class="hover:text-[#c2410c] transition-colors">GitHub</a>
-                <a href="https://t.me/xwdsmsdiscussion" target="_blank" class="hover:text-[#c2410c] transition-colors">Discussion</a>
-                <a href="https://t.me/xwd_sms" target="_blank" class="hover:text-[#c2410c] transition-colors">Info Channel</a>
-            </div>
-        </footer>
-
-    </main>
-
-    <script>
-        document.getElementById('year').textContent = new Date().getFullYear();
-
-        // Terminal engine
-        (function initTerminal() {
-            const out = document.getElementById('termOut');
-
-            function getGpu() {
-                try {
-                    const c = document.createElement('canvas');
-                    const gl = c.getContext('webgl') || c.getContext('experimental-webgl');
-                    if (!gl) return "WebGL not available";
-                    const dbg = gl.getExtension('WEBGL_debug_renderer_info');
-                    return dbg ? gl.getParameter(dbg.UNMASKED_RENDERER_WEBGL) : gl.getParameter(gl.RENDERER);
-                } catch (e) { return "Standard GPU"; }
-            }
-            const gpuInfo = getGpu();
-
-            function print(html) {
-                const d = document.createElement('div');
-                d.className = 'py-0.5';
-                d.innerHTML = html;
-                out.appendChild(d);
-                out.scrollTop = out.scrollHeight;
-            }
-
-            async function pingTest() {
-                print('<span class="text-[#fbbf24]">→ Running latency benchmark...</span>');
-                const targets = [
-                    { n: 'Cloudflare DNS', u: 'https://1.1.1.1/cdn-cgi/trace' },
-                    { n: 'GitHub API', u: 'https://api.github.com/zen' }
-                ];
-                for (const t of targets) {
-                    const start = performance.now();
-                    try {
-                        await fetch(t.u, { mode: 'no-cors', cache: 'no-store' });
-                        const ms = Math.round(performance.now() - start);
-                        print(`<span class="text-[#a3e635]">✓</span> ${t.n}: <span class="text-white font-semibold">${ms} ms</span>`);
-                    } catch (e) {
-                        const ms = Math.round(performance.now() - start);
-                        print(`<span class="text-[#a3e635]">✓</span> ${t.n}: <span class="text-white font-semibold">${ms} ms</span> <span class="text-[#78716c]">(ack)</span>`);
+                    for (let j = i + 1; j < particles.length; j++) {
+                        const p2 = particles[j];
+                        const dx = p.x - p2.x;
+                        const dy = p.y - p2.y;
+                        const dist = Math.sqrt(dx * dx + dy * dy);
+                        if (dist < 130) {
+                            ctx.beginPath();
+                            ctx.moveTo(p.x, p.y);
+                            ctx.lineTo(p2.x, p2.y);
+                            ctx.stroke();
+                        }
                     }
+                });
+                requestAnimationFrame(animateBg);
+            }
+            animateBg();
+        })();
+
+        // Count-Up Animation
+        (function initCounters() {
+            const counters = document.querySelectorAll('.counter');
+            let animated = false;
+
+            const observer = new IntersectionObserver((entries) => {
+                if (entries[0].isIntersecting && !animated) {
+                    animated = true;
+                    counters.forEach(c => {
+                        const target = +c.getAttribute('data-target');
+                        let count = 0;
+                        const speed = target / 30;
+                        const update = () => {
+                            count += speed;
+                            if (count < target) {
+                                c.innerText = Math.ceil(count);
+                                setTimeout(update, 30);
+                            } else {
+                                c.innerText = target;
+                            }
+                        };
+                        update();
+                    });
                 }
+            }, { threshold: 0.5 });
+
+            if (counters.length) observer.observe(counters[0]);
+        })();
+
+        window.filterRepos = function(category) {
+            document.querySelectorAll('.repo-filter-btn').forEach(btn => {
+                btn.classList.remove('bg-brand-500', 'text-white');
+                btn.classList.add('bg-slate-800', 'text-slate-400');
+            });
+            event.target.classList.add('bg-brand-500', 'text-white');
+            event.target.classList.remove('bg-slate-800', 'text-slate-400');
+
+            const cards = document.querySelectorAll('.repo-card');
+            cards.forEach(card => {
+                if (category === 'all' || (card.dataset.category && card.dataset.category.includes(category))) {
+                    card.style.display = 'flex';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        };
+
+        window.searchRepos = function() {
+            const query = document.getElementById('repoSearchInput').value.toLowerCase();
+            const cards = document.querySelectorAll('.repo-card');
+            cards.forEach(card => {
+                const text = card.textContent.toLowerCase();
+                if (text.includes(query)) {
+                    card.style.display = 'flex';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        };
+
+        window.copyRepoCmd = function(cmd) {
+            navigator.clipboard.writeText(cmd);
+            showToast(`Command copied: ${cmd}`);
+        };
+
+        (function initTerminal() {  
+            const out = document.getElementById('termOut');  
+            let matrixActive = false;
+
+            function print(html) {  
+                const d = document.createElement('div');  
+                d.innerHTML = html;  
+                out.appendChild(d);  
+                out.scrollTop = out.scrollHeight;  
+            }  
+
+            async function pingTest() {  
+                print('<span class="text-amber-300">→ Measuring network response times...</span>');  
+                const start = performance.now();  
+                setTimeout(() => {
+                    const ms = Math.round(performance.now() - start + 24);
+                    print(`<span class="text-emerald-400">✓</span> Gateway API: <span class="text-white">${ms} ms</span>`);
+                }, 150);
+            }  
+
+            // Matrix Digital Rain Mode
+            function toggleMatrix() {
+                const matrixCanvas = document.getElementById('matrixCanvas');
+                const ctx = matrixCanvas.getContext('2d');
+                if (matrixActive) {
+                    matrixActive = false;
+                    matrixCanvas.style.opacity = '0';
+                    print('<span class="text-rose-400">Matrix effect stopped.</span>');
+                    return;
+                }
+
+                matrixActive = true;
+                matrixCanvas.style.opacity = '0.35';
+                print('<span class="text-emerald-400">Matrix digital rain activated! Type "matrix" again to exit.</span>');
+
+                matrixCanvas.width = matrixCanvas.offsetWidth;
+                matrixCanvas.height = matrixCanvas.offsetHeight;
+                const chars = '01XWD_PYTHON_FASTAPI';
+                const drops = Array(Math.floor(matrixCanvas.width / 14)).fill(1);
+
+                function drawMatrix() {
+                    if (!matrixActive) return;
+                    ctx.fillStyle = 'rgba(13, 17, 23, 0.08)';
+                    ctx.fillRect(0, 0, matrixCanvas.width, matrixCanvas.height);
+                    ctx.fillStyle = '#10b981';
+                    ctx.font = '12px JetBrains Mono';
+
+                    drops.forEach((y, i) => {
+                        const text = chars[Math.floor(Math.random() * chars.length)];
+                        ctx.fillText(text, i * 14, y * 14);
+                        if (y * 14 > matrixCanvas.height && Math.random() > 0.975) drops[i] = 0;
+                        drops[i]++;
+                    });
+                    requestAnimationFrame(drawMatrix);
+                }
+                drawMatrix();
             }
 
-            window.runCmd = function(cmd) {
-                if (!cmd) return;
-                const c = cmd.trim().toLowerCase();
-                print(`<div class="text-[#78716c]"><span class="text-[#a3e635]">~$</span> ${cmd}</div>`);
+            window.runCmd = function(cmd) {  
+                if (!cmd) return;  
+                const c = cmd.trim().toLowerCase();  
+                print(`<div class="text-slate-500"><span class="text-emerald-400">~$</span> ${cmd}</div>`);  
 
-                if (c === 'help') {
-                    print(`<div class="text-[#e7e5e4] space-y-1 my-1">
-                        <div class="text-[#fbbf24] font-semibold">Available commands:</div>
-                        <div><span class="text-[#fbbf24]">python</span> — list Python repositories</div>
-                        <div><span class="text-[#7dd3fc]">channels</span> — show Telegram channels</div>
-                        <div><span class="text-[#a3e635]">ping</span> — run latency benchmark</div>
-                        <div><span class="text-[#c084fc]">gpu</span> — inspect GPU renderer</div>
-                        <div><span class="text-[#78716c]">clear</span> — clear screen</div>
-                    </div>`);
-                }
-                else if (c === 'python') {
-                    print(`<div class="text-[#e7e5e4] space-y-1 my-1">
-                        <div class="text-[#fbbf24] font-semibold">Python Repos:</div>
-                        <div>1. FB Auto Crate — github.com/YunickXwd01/Auto_Crate</div>
-                        <div>2. FB Cloning — github.com/YunickXwd01/Fb_Cloning</div>
-                        <div>3. FB Profile Guard — github.com/YunickXwd01/profile_guard</div>
-                        <div>4. IG Security Tool — github.com/YunickXwd01/Instagram_tool</div>
-                        <div>5. IGX Followers — github.com/YunickXwd01/igx</div>
-                    </div>`);
-                }
-                else if (c === 'channels' || c === 'community') {
-                    print(`<div class="text-[#e7e5e4] space-y-1 my-1">
-                        <div class="text-[#7dd3fc] font-semibold">Telegram:</div>
-                        <div>💬 Discussion — t.me/xwdsmsdiscussion</div>
-                        <div>📢 Info — t.me/xwd_sms</div>
-                        <div>👤 Direct — @YunickXwd</div>
-                    </div>`);
-                }
-                else if (c === 'ping') { pingTest(); }
-                else if (c === 'gpu') {
-                    print(`<div class="text-[#e7e5e4] bg-[#1c1917] p-3 rounded-lg my-1">
-                        <div class="text-[#a3e635] font-semibold mb-1">GPU Renderer</div>
-                        <div class="text-white">${gpuInfo}</div>
-                    </div>`);
-                }
-                else if (c === 'clear') { out.innerHTML = ''; }
-                else { print(`<span class="text-[#f87171]">command not found: '${c}'. try 'help'.</span>`); }
-            };
+                if (c === 'help') {  
+                    print(`<div class="text-slate-300 space-y-1">  
+                        <div><span class="text-amber-300">python</span> — list custom python projects</div>  
+                        <div><span class="text-sky-400">channels</span> — Telegram contact channels</div>  
+                        <div><span class="text-emerald-400">matrix</span> — toggle green digital rain</div>  
+                        <div><span class="text-indigo-400">ping</span> — test network latency</div>  
+                        <div><span class="text-slate-400">clear</span> — clear terminal console</div>  
+                    </div>`);  
+                }  
+                else if (c === 'python') {  
+                    print(`<div class="text-slate-300 space-y-1">  
+                        <div>1. Auto_Crate — github.com/YunickXwd01/Auto_Crate</div>  
+                        <div>2. Fb_Cloning — github.com/YunickXwd01/Fb_Cloning</div>  
+                        <div>3. profile_guard — github.com/YunickXwd01/profile_guard</div>  
+                        <div>4. Instagram_tool — github.com/YunickXwd01/Instagram_tool</div>  
+                        <div>5. igx — github.com/YunickXwd01/igx</div>  
+                    </div>`);  
+                }  
+                else if (c === 'channels') {  
+                    print(`<div class="text-slate-300 space-y-1">  
+                        <div>💬 Group — t.me/xwdsmsdiscussion</div>  
+                        <div>📢 Channel — t.me/xwd_sms</div>  
+                        <div>👤 Direct — @YunickXwd</div>  
+                    </div>`);  
+                }  
+                else if (c === 'matrix') { toggleMatrix(); }
+                else if (c === 'ping') { pingTest(); }  
+                else if (c === 'clear') { out.innerHTML = ''; }  
+                else { print(`<span class="text-rose-400">command not recognized: '${c}'. type 'help'.</span>`); }  
+            };  
 
-            window.onSubmit = function(e) {
-                e.preventDefault();
-                const i = document.getElementById('termIn');
-                if (i.value.trim()) { window.runCmd(i.value); i.value = ''; }
-            };
-        })();
+            window.onSubmit = function(e) {  
+                e.preventDefault();  
+                const i = document.getElementById('termIn');  
+                if (i.value.trim()) { window.runCmd(i.value); i.value = ''; }  
+            };  
+        })();  
 
-        // Reveal on scroll
-        (function initReveal() {
-            const els = document.querySelectorAll('.reveal');
-            const io = new IntersectionObserver((entries) => {
-                entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
-            }, { threshold: 0.08 });
-            els.forEach(el => io.observe(el));
-        })();
-    </script>
-</body>
-</html>
+        // Scroll reveal  
+        (function initReveal() {  
+            const els = document.querySelectorAll('.reveal');  
+            const io = new IntersectionObserver((entries) => {  
+                entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });  
+            }, { threshold: 0.1 });  
+            els.forEach(el => io.observe(el));  
+        })();  
+    </script>  
+</body>  
+</html>  
+```
